@@ -41,7 +41,14 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
 
   const strings = originalTabs.split(' ');
   
-  const transposedStrings = strings.map((val, index) => {
+  interface FretInfo {
+    fret: number;
+    isOpen: boolean;
+    isMuted: boolean;
+  }
+  
+  // First pass: apply transposition
+  const transposedStrings: (FretInfo | string)[] = strings.map((val, index) => {
     // If it's muted ('x'), keep it muted
     if (val.toLowerCase() === 'x') return 'x';
     
@@ -64,10 +71,58 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
       newFret += 12;
     }
 
-    return newFret.toString();
+    return { fret: newFret, isOpen: fret === 0, isMuted: false };
   });
 
-  return transposedStrings.join(' ');
+  // Second pass: make tabs playable
+  // Find the range of frets (excluding open strings and muted)
+  const activeFrets = transposedStrings
+    .filter((s): s is FretInfo => typeof s === 'object' && !s.isOpen && !s.isMuted)
+    .map(s => s.fret);
+  
+  if (activeFrets.length > 0) {
+    const minFret = Math.min(...activeFrets);
+    const maxFret = Math.max(...activeFrets);
+    const fretSpread = maxFret - minFret;
+    
+    // Maximum 7-fret spread rule: if spread > 7 or max fret >= 10, adjust
+    // Goal: keep all frets in a comfortable playing position (max 7 frets apart)
+    if (maxFret >= 10 || fretSpread > 7) {
+      // Move high frets down an octave until they fit within the 7-fret range
+      let adjusted = false;
+      do {
+        adjusted = false;
+        const currentMax = Math.max(...transposedStrings
+          .filter((s): s is FretInfo => typeof s === 'object' && !s.isOpen && !s.isMuted)
+          .map(s => s.fret));
+        const currentMin = Math.min(...transposedStrings
+          .filter((s): s is FretInfo => typeof s === 'object' && !s.isOpen && !s.isMuted)
+          .map(s => s.fret));
+        const currentSpread = currentMax - currentMin;
+        
+        if (currentMax >= 10 || currentSpread > 7) {
+          transposedStrings.forEach((item) => {
+            if (typeof item === 'object' && !item.isOpen && !item.isMuted && item.fret >= 10) {
+              item.fret -= 12;
+              adjusted = true;
+              // If it goes negative, revert
+              if (item.fret < 0) {
+                item.fret += 12;
+              }
+            }
+          });
+        }
+      } while (adjusted);
+    }
+  }
+
+  // Convert back to strings
+  return transposedStrings.map(item => {
+    if (typeof item === 'object') {
+      return item.fret.toString();
+    }
+    return item;
+  }).join(' ');
 };
 
 // Transpose an entire Chord object

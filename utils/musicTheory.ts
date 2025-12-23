@@ -74,45 +74,54 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
     return { fret: newFret, isOpen: fret === 0, isMuted: false };
   });
 
-  // Second pass: make tabs playable
-  // Find the range of frets (excluding open strings and muted)
-  const activeFrets = transposedStrings
-    .filter((s): s is FretInfo => typeof s === 'object' && !s.isOpen && !s.isMuted)
+  // Second pass: make tabs playable with maximum 7-fret spread
+  // Include ALL frets (including open strings) in spread calculation for realistic playability
+  const allFrets = transposedStrings
+    .filter((s): s is FretInfo => typeof s === 'object' && !s.isMuted)
     .map(s => s.fret);
   
-  if (activeFrets.length > 0) {
-    const minFret = Math.min(...activeFrets);
-    const maxFret = Math.max(...activeFrets);
-    const fretSpread = maxFret - minFret;
+  if (allFrets.length > 0) {
+    let iterations = 0;
+    const maxIterations = 5; // Prevent infinite loops
     
-    // Maximum 7-fret spread rule: if spread > 7 or max fret >= 10, adjust
-    // Goal: keep all frets in a comfortable playing position (max 7 frets apart)
-    if (maxFret >= 10 || fretSpread > 7) {
-      // Move high frets down an octave until they fit within the 7-fret range
+    while (iterations < maxIterations) {
+      const currentFrets = transposedStrings
+        .filter((s): s is FretInfo => typeof s === 'object' && !s.isMuted)
+        .map(s => s.fret);
+      
+      if (currentFrets.length === 0) break;
+      
+      const currentMin = Math.min(...currentFrets);
+      const currentMax = Math.max(...currentFrets);
+      const currentSpread = currentMax - currentMin;
+      
+      // Maximum 7-fret spread: if spread > 7, we need to adjust
+      // Also limit max fret to 8 for better playability
+      if (currentSpread <= 7 && currentMax <= 8) break;
+      
+      // Strategy: Move the highest frets down an octave
+      // Find the threshold - if spread > 7, move frets that are > (min + 7)
+      const threshold = currentMin + 7;
+      
       let adjusted = false;
-      do {
-        adjusted = false;
-        const currentMax = Math.max(...transposedStrings
-          .filter((s): s is FretInfo => typeof s === 'object' && !s.isOpen && !s.isMuted)
-          .map(s => s.fret));
-        const currentMin = Math.min(...transposedStrings
-          .filter((s): s is FretInfo => typeof s === 'object' && !s.isOpen && !s.isMuted)
-          .map(s => s.fret));
-        const currentSpread = currentMax - currentMin;
-        
-        if (currentMax >= 10 || currentSpread > 7) {
-          transposedStrings.forEach((item) => {
-            if (typeof item === 'object' && !item.isOpen && !item.isMuted && item.fret >= 10) {
-              item.fret -= 12;
+      transposedStrings.forEach((item) => {
+        if (typeof item === 'object' && !item.isMuted) {
+          // Move frets that exceed the 7-fret spread OR are >= 9
+          if (item.fret > threshold || item.fret >= 9) {
+            const oldFret = item.fret;
+            item.fret -= 12;
+            // If it goes negative, revert
+            if (item.fret < 0) {
+              item.fret = oldFret; // Revert
+            } else {
               adjusted = true;
-              // If it goes negative, revert
-              if (item.fret < 0) {
-                item.fret += 12;
-              }
             }
-          });
+          }
         }
-      } while (adjusted);
+      });
+      
+      if (!adjusted) break; // No more adjustments possible
+      iterations++;
     }
   }
 

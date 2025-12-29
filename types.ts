@@ -18,6 +18,12 @@ export enum TuningMode {
   DROP = 'DROP'
 }
 
+export enum VibeMode {
+  DARK = 'DARK',
+  MELODIC = 'MELODIC',
+  ENERGETIC = 'ENERGETIC'
+}
+
 export interface AudioState {
   isInitialized: boolean;
   isDistorted: boolean;

@@ -4,8 +4,9 @@ import { DistortionSwitch } from './components/DistortionSwitch';
 import { ChordCard } from './components/ChordCard';
 import { RootSelector } from './components/RootSelector';
 import { TuningSelector } from './components/TuningSelector';
-import { CHORDS } from './constants';
-import { Chord, TuningMode } from './types';
+import { VibeSelector } from './components/VibeSelector';
+import { CHORD_LIBRARY } from './constants';
+import { Chord, TuningMode, VibeMode } from './types';
 import { transposeChord } from './utils/musicTheory';
 
 const App: React.FC = () => {
@@ -14,6 +15,7 @@ const App: React.FC = () => {
   const [activeChordId, setActiveChordId] = useState<string | null>(null);
   const [selectedRoot, setSelectedRoot] = useState('E'); // Default to Standard E
   const [tuningMode, setTuningMode] = useState<TuningMode>(TuningMode.STANDARD);
+  const [vibeMode, setVibeMode] = useState<VibeMode>(VibeMode.MELODIC);
 
   // Initialize Audio Context on first interaction
   const handleUserInteraction = async () => {
@@ -41,10 +43,11 @@ const App: React.FC = () => {
     setTimeout(() => setActiveChordId(null), 300);
   };
 
-  // Dynamically calculate displayed chords based on selected root and tuning
+  // Dynamically calculate displayed chords based on selected root, tuning, and vibe
   const displayedChords = useMemo(() => {
-    return CHORDS.map(chord => transposeChord(chord, selectedRoot, tuningMode));
-  }, [selectedRoot, tuningMode]);
+    const baseChords = CHORD_LIBRARY[tuningMode][vibeMode];
+    return baseChords.map(chord => transposeChord(chord, selectedRoot, tuningMode));
+  }, [selectedRoot, tuningMode, vibeMode]);
 
   return (
     <div className={`min-h-screen transition-colors duration-700 ${isDistorted ? 'bg-[#080505]' : 'bg-[#0a0a0a]'}`}>
@@ -95,11 +98,17 @@ const App: React.FC = () => {
             </div>
           </section>
 
-          {/* Tuning & Root Selection */}
+          {/* Tuning, Vibe & Root Selection */}
           <section className="mb-8">
               <TuningSelector 
                 tuning={tuningMode} 
                 setTuning={setTuningMode} 
+                isDistorted={isDistorted} 
+              />
+              
+              <VibeSelector 
+                vibe={vibeMode} 
+                setVibe={setVibeMode} 
                 isDistorted={isDistorted} 
               />
               

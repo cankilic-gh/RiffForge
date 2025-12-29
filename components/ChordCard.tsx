@@ -5,18 +5,23 @@ interface ChordCardProps {
   chord: Chord;
   isDistorted: boolean;
   onPlay: (chord: Chord) => void;
+  isLocked?: boolean;
 }
 
-export const ChordCard: React.FC<ChordCardProps> = ({ chord, isDistorted, onPlay }) => {
+export const ChordCard: React.FC<ChordCardProps> = ({ chord, isDistorted, onPlay, isLocked = false }) => {
   return (
     <button
       onClick={() => onPlay(chord)}
       className={`
         relative overflow-hidden p-6 text-left transition-all duration-200 group
-        border border-opacity-20 hover:border-opacity-60 active:scale-95 w-full h-full flex flex-col justify-between
-        ${isDistorted 
-          ? 'bg-neutral-900 border-rose-900 hover:border-rose-500 hover:bg-rose-900/10' 
-          : 'bg-neutral-900 border-neutral-700 hover:border-cyan-500 hover:bg-cyan-900/10'
+        border active:scale-95 w-full h-full flex flex-col justify-between
+        ${isLocked
+          ? isDistorted
+            ? 'border-rose-500 border-opacity-100 bg-rose-950/20 shadow-[0_0_20px_rgba(225,29,72,0.4)]'
+            : 'border-cyan-500 border-opacity-100 bg-cyan-950/20 shadow-[0_0_20px_rgba(8,145,178,0.4)]'
+          : isDistorted
+            ? 'border-rose-900 border-opacity-20 hover:border-opacity-60 hover:bg-rose-900/10'
+            : 'border-neutral-700 border-opacity-20 hover:border-opacity-60 hover:bg-cyan-900/10'
         }
       `}
     >

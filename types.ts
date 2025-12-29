@@ -6,6 +6,7 @@ export interface Chord {
   description: string;
   fretboard?: string;
   baseRoot: string; // The root note of the original voicing (e.g., 'E' for Opeth chord)
+  relatedChords?: Chord[]; // Child chords that harmonically work with this parent
 }
 
 export enum AppMode {

@@ -16,6 +16,12 @@ const App: React.FC = () => {
   const [selectedRoot, setSelectedRoot] = useState('E'); // Default to Standard E
   const [tuningMode, setTuningMode] = useState<TuningMode>(TuningMode.STANDARD);
   const [vibeMode, setVibeMode] = useState<VibeMode>(VibeMode.MELODIC);
+  const [lockedParentId, setLockedParentId] = useState<string | null>(null);
+
+  // Reset lock when tuning or vibe changes
+  React.useEffect(() => {
+    setLockedParentId(null);
+  }, [tuningMode, vibeMode]);
 
   // Initialize Audio Context on first interaction
   const handleUserInteraction = async () => {
@@ -43,11 +49,36 @@ const App: React.FC = () => {
     setTimeout(() => setActiveChordId(null), 300);
   };
 
+  const handleChordClick = async (chord: Chord) => {
+    await playChord(chord);
+    
+    // Toggle lock: if clicking the locked parent, unlock. Otherwise, lock this chord.
+    if (lockedParentId === chord.id) {
+      setLockedParentId(null);
+    } else {
+      setLockedParentId(chord.id);
+    }
+  };
+
   // Dynamically calculate displayed chords based on selected root, tuning, and vibe
   const displayedChords = useMemo(() => {
     const baseChords = CHORD_LIBRARY[tuningMode][vibeMode];
-    return baseChords.map(chord => transposeChord(chord, selectedRoot, tuningMode));
-  }, [selectedRoot, tuningMode, vibeMode]);
+    const transposedParents = baseChords.map(chord => transposeChord(chord, selectedRoot, tuningMode));
+    
+    // If a parent is locked, show it + its 5 related children
+    if (lockedParentId) {
+      const lockedParent = transposedParents.find(c => c.id === lockedParentId);
+      if (lockedParent && lockedParent.relatedChords) {
+        const transposedChildren = lockedParent.relatedChords.map(child => 
+          transposeChord(child, selectedRoot, tuningMode)
+        );
+        return [lockedParent, ...transposedChildren];
+      }
+    }
+    
+    // Default: show all 6 parents
+    return transposedParents;
+  }, [selectedRoot, tuningMode, vibeMode, lockedParentId]);
 
   return (
     <div className={`min-h-screen transition-colors duration-700 ${isDistorted ? 'bg-[#080505]' : 'bg-[#0a0a0a]'}`}>
@@ -130,7 +161,8 @@ const App: React.FC = () => {
               <ChordCard 
                 chord={chord} 
                 isDistorted={isDistorted} 
-                onPlay={playChord} 
+                onPlay={handleChordClick}
+                isLocked={lockedParentId === chord.id}
               />
             </div>
           ))}

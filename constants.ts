@@ -6,6 +6,8 @@ export const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#'
 export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
   [TuningMode.STANDARD]: {
     [VibeMode.DARK]: [
+      // E Phrygian Dominant: E, F, G#, A, B, C, D#
+      // All chords share E as tonal center with m2 and tritone intervals
       {
         id: 'dark-1',
         name: 'The Omen',
@@ -17,55 +19,57 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
       },
       {
         id: 'dark-2',
-        name: 'Void Triad',
-        subtext: 'Dim',
-        notes: ['E2', 'G2', 'A#2', 'E3'],
-        description: 'Diminished tension. Unstable.',
-        fretboard: '0 3 6 x x x',
+        name: 'Phrygian Root',
+        subtext: 'b2',
+        notes: ['E2', 'F2', 'G#2', 'B2', 'E3'],
+        description: 'Phrygian dominant foundation. Exotic.',
+        fretboard: '0 1 4 2 0 x',
         baseRoot: 'E'
       },
       {
         id: 'dark-3',
         name: 'Tritone Stack',
-        subtext: 'b5 Cluster',
-        notes: ['E1', 'A#1', 'E2', 'A#2'],
+        subtext: 'b5',
+        notes: ['E2', 'A#2', 'E3', 'A#3'],
         description: 'The devil in music. Pure instability.',
-        fretboard: '0 6 7 x x x',
+        fretboard: '0 6 0 6 x x',
         baseRoot: 'E'
       },
       {
         id: 'dark-4',
-        name: 'Minor 9th Hell',
-        subtext: 'm(add9)',
-        notes: ['E2', 'G2', 'B2', 'F#3'],
-        description: 'Dark with extension. Melancholy.',
-        fretboard: '0 3 2 4 x x',
+        name: 'Diminished Phrygian',
+        subtext: 'Dim/b2',
+        notes: ['E2', 'F2', 'G2', 'A#2'],
+        description: 'Diminished with m2. Maximum tension.',
+        fretboard: '0 1 3 6 x x',
         baseRoot: 'E'
       },
       {
         id: 'dark-5',
-        name: 'Diminished 7th',
-        subtext: 'Dim7',
-        notes: ['E2', 'G2', 'A#2', 'C#3'],
-        description: 'Fully diminished. Maximum tension.',
-        fretboard: '0 3 6 4 x x',
-        baseRoot: 'E'
-      },
-      {
-        id: 'dark-6',
-        name: 'Phrygian Dominant',
+        name: 'Phrygian b6',
         subtext: 'b2/b6',
         notes: ['E2', 'F2', 'G#2', 'B2', 'C3'],
         description: 'Exotic darkness. Middle Eastern.',
         fretboard: '0 1 4 2 3 x',
         baseRoot: 'E'
+      },
+      {
+        id: 'dark-6',
+        name: 'Tritone Resolve',
+        subtext: 'b5/m2',
+        notes: ['E2', 'F2', 'A#2', 'E3'],
+        description: 'Tritone with m2 clash. Unsettling.',
+        fretboard: '0 1 6 0 x x',
+        baseRoot: 'E'
       }
     ],
     [VibeMode.MELODIC]: [
+      // E Minor Diatonic: Em (i), C (VI), Am (iv) - smooth voice leading
+      // All chords flow naturally in E Minor key
       {
         id: 'melodic-1',
         name: 'The "Ghost" Chord',
-        subtext: 'm(add9)',
+        subtext: 'Em(add9)',
         notes: ['E2', 'B2', 'F#3', 'G3', 'B3', 'E4'],
         description: 'The quintessential melancholy shape.',
         fretboard: '0 2 4 0 0 0',
@@ -73,63 +77,56 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
       },
       {
         id: 'melodic-2',
-        name: 'Whales Maj7',
-        subtext: 'Maj7(no5)',
-        notes: ['E2', 'D#3', 'B3', 'E4'],
-        description: 'Massive, open, and atmospheric.',
-        fretboard: '0 x 1 4 5 x',
-        baseRoot: 'E'
+        name: 'C Major 7',
+        subtext: 'C(VI)',
+        notes: ['C3', 'E3', 'G3', 'B3'],
+        description: 'Relative major. Bright contrast.',
+        fretboard: 'x 3 2 0 1 0',
+        baseRoot: 'C'
       },
       {
         id: 'melodic-3',
-        name: 'Ethereal Wall',
-        subtext: 'sus2/Maj7',
-        notes: ['E2', 'B2', 'D#3', 'F#3', 'B3', 'E4'],
-        description: 'Beautifully muddy with high gain.',
-        fretboard: '0 2 1 3 0 0',
-        baseRoot: 'E'
+        name: 'Am Add9',
+        subtext: 'Am(iv)',
+        notes: ['A2', 'E3', 'A3', 'B3', 'E4'],
+        description: 'Subdominant with extension. Flowing.',
+        fretboard: 'x 0 2 2 0 0',
+        baseRoot: 'A'
       },
       {
         id: 'melodic-4',
-        name: 'Add9 Dream',
-        subtext: 'Add9',
-        notes: ['E2', 'G#2', 'B2', 'F#3'],
-        description: 'Wide intervals. Emotional resonance.',
-        fretboard: '0 4 2 4 x x',
+        name: 'Em Maj7',
+        subtext: 'Em(i)',
+        notes: ['E2', 'G2', 'B2', 'D#3', 'E4'],
+        description: 'Tonic with major 7th. Ethereal.',
+        fretboard: '0 3 2 1 0 x',
         baseRoot: 'E'
       },
       {
         id: 'melodic-5',
-        name: 'Maj7 Suspension',
-        subtext: 'Maj7sus2',
-        notes: ['E2', 'F#2', 'B2', 'D#3', 'E4'],
-        description: 'Suspended beauty. Opeth-style.',
-        fretboard: '0 2 2 1 0 x',
-        baseRoot: 'E'
+        name: 'C sus2',
+        subtext: 'C(VI)sus2',
+        notes: ['C3', 'D3', 'G3', 'C4'],
+        description: 'Suspended VI. Smooth transition.',
+        fretboard: 'x 3 5 5 3 x',
+        baseRoot: 'C'
       },
       {
         id: 'melodic-6',
-        name: 'Minor 11th',
-        subtext: 'm11',
-        notes: ['E2', 'G2', 'B2', 'D3', 'F#3'],
-        description: 'Rich extension. Loathe-inspired.',
-        fretboard: '0 3 2 0 2 x',
+        name: 'Em 11th',
+        subtext: 'Em(i)11',
+        notes: ['E2', 'G2', 'B2', 'D3', 'F#3', 'A3'],
+        description: 'Rich tonic extension. Loathe-style.',
+        fretboard: '0 3 2 0 2 0',
         baseRoot: 'E'
       }
     ],
     [VibeMode.ENERGETIC]: [
+      // E Pedal Point: Open E string drones throughout
+      // All chords use E as constant drone for rhythmic cohesion
       {
         id: 'energetic-1',
-        name: 'Modern Metalcore',
-        subtext: 'Sus2 Stack',
-        notes: ['E2', 'B2', 'E3', 'F#3', 'B3'],
-        description: 'Tight, percussive, and emotionally resonant.',
-        fretboard: '0 2 2 4 x x',
-        baseRoot: 'E'
-      },
-      {
-        id: 'energetic-2',
-        name: 'Power Chord Stack',
+        name: 'E Power',
         subtext: '5th',
         notes: ['E2', 'B2', 'E3'],
         description: 'Classic power. Palm mute ready.',
@@ -137,17 +134,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
         baseRoot: 'E'
       },
       {
-        id: 'energetic-3',
-        name: 'Bleed Stack',
-        subtext: 'Poly-Rhythm',
-        notes: ['E1', 'E2', 'B2'],
-        description: 'Just the low end. Palm mute required.',
-        fretboard: '0 0 2 x x x',
-        baseRoot: 'E'
-      },
-      {
-        id: 'energetic-4',
-        name: 'Sus4 Chug',
+        id: 'energetic-2',
+        name: 'E Sus4',
         subtext: 'Sus4',
         notes: ['E2', 'A2', 'B2', 'E3'],
         description: 'Tight sus4. Gallop-friendly.',
@@ -155,8 +143,17 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
         baseRoot: 'E'
       },
       {
-        id: 'energetic-5',
-        name: 'Octave Stack',
+        id: 'energetic-3',
+        name: 'E Sus2',
+        subtext: 'Sus2',
+        notes: ['E2', 'F#2', 'B2', 'E3'],
+        description: 'Sus2 with E drone. Modern metalcore.',
+        fretboard: '0 2 2 0 x x',
+        baseRoot: 'E'
+      },
+      {
+        id: 'energetic-4',
+        name: 'E Octave',
         subtext: 'Octave',
         notes: ['E2', 'E3', 'B3'],
         description: 'Clean octaves. Rhythmic clarity.',
@@ -164,11 +161,20 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
         baseRoot: 'E'
       },
       {
+        id: 'energetic-5',
+        name: 'E Low Stack',
+        subtext: 'Low 5th',
+        notes: ['E1', 'E2', 'B2'],
+        description: 'Ultra low-end. Palm mute required.',
+        fretboard: '0 0 2 x x x',
+        baseRoot: 'E'
+      },
+      {
         id: 'energetic-6',
-        name: 'Drop 5th',
-        subtext: '5th',
+        name: 'E Double 5th',
+        subtext: '5th Stack',
         notes: ['E2', 'B2', 'E3', 'B3'],
-        description: 'Double stop power. Punchy.',
+        description: 'Double stop power. Maximum punch.',
         fretboard: '0 2 2 0 x x',
         baseRoot: 'E'
       }
@@ -176,6 +182,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
   },
   [TuningMode.DROP]: {
     [VibeMode.DARK]: [
+      // D Phrygian Dominant: D, D#, F#, G, A, A#, C
+      // All chords share D as tonal center with m2 and tritone intervals
       {
         id: 'drop-dark-1',
         name: 'Drop Omen',
@@ -183,164 +191,168 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
         notes: ['D2', 'D#2', 'A2', 'D3'],
         description: 'Drop tuning darkness. Heavy m2.',
         fretboard: '0 1 2 x x x',
-        baseRoot: 'E'
+        baseRoot: 'D'
       },
       {
         id: 'drop-dark-2',
-        name: 'Drop Void',
-        subtext: 'Dim',
-        notes: ['D2', 'F2', 'G#2', 'D3'],
-        description: 'Low-end diminished. Crushing.',
-        fretboard: '0 3 6 x x x',
-        baseRoot: 'E'
+        name: 'Drop Phrygian',
+        subtext: 'b2',
+        notes: ['D2', 'D#2', 'F#2', 'A2', 'D3'],
+        description: 'Phrygian dominant drop. Exotic.',
+        fretboard: '0 1 4 2 0 x',
+        baseRoot: 'D'
       },
       {
         id: 'drop-dark-3',
         name: 'Drop Tritone',
         subtext: 'b5',
-        notes: ['D1', 'G#1', 'D2', 'G#2'],
+        notes: ['D2', 'G#2', 'D3', 'G#3'],
         description: 'Devil\'s interval. Drop power.',
-        fretboard: '0 6 7 x x x',
-        baseRoot: 'E'
+        fretboard: '0 6 0 6 x x',
+        baseRoot: 'D'
       },
       {
         id: 'drop-dark-4',
-        name: 'Drop Minor 9th',
-        subtext: 'm(add9)',
-        notes: ['D2', 'F2', 'A2', 'E3'],
-        description: 'Dark extension. Low-end melody.',
-        fretboard: '0 3 2 4 x x',
-        baseRoot: 'E'
+        name: 'Drop Dim Phrygian',
+        subtext: 'Dim/b2',
+        notes: ['D2', 'D#2', 'F2', 'G#2'],
+        description: 'Diminished with m2. Maximum tension.',
+        fretboard: '0 1 3 6 x x',
+        baseRoot: 'D'
       },
       {
         id: 'drop-dark-5',
-        name: 'Drop Dim7',
-        subtext: 'Dim7',
-        notes: ['D2', 'F2', 'G#2', 'B2'],
-        description: 'Fully diminished drop. Tension.',
-        fretboard: '0 3 6 4 x x',
-        baseRoot: 'E'
+        name: 'Drop Phrygian b6',
+        subtext: 'b2/b6',
+        notes: ['D2', 'D#2', 'F#2', 'A2', 'A#2'],
+        description: 'Exotic drop darkness. Heavy.',
+        fretboard: '0 1 4 2 3 x',
+        baseRoot: 'D'
       },
       {
         id: 'drop-dark-6',
-        name: 'Drop Phrygian',
-        subtext: 'b2',
-        notes: ['D2', 'D#2', 'F#2', 'A2', 'B2'],
-        description: 'Exotic drop darkness. Heavy.',
-        fretboard: '0 1 4 2 3 x',
-        baseRoot: 'E'
+        name: 'Drop Tritone Resolve',
+        subtext: 'b5/m2',
+        notes: ['D2', 'D#2', 'G#2', 'D3'],
+        description: 'Tritone with m2 clash. Unsettling.',
+        fretboard: '0 1 6 0 x x',
+        baseRoot: 'D'
       }
     ],
     [VibeMode.MELODIC]: [
+      // D Minor Diatonic: Dm (i), Bb (VI), Gm (iv) - smooth voice leading
+      // All chords flow naturally in D Minor key
       {
         id: 'drop-melodic-1',
         name: 'Drop Ghost',
-        subtext: 'm(add9)',
+        subtext: 'Dm(add9)',
         notes: ['D2', 'A2', 'E3', 'F3', 'A3', 'D4'],
         description: 'Drop melancholy. Wide intervals.',
         fretboard: '0 2 4 0 0 0',
-        baseRoot: 'E'
+        baseRoot: 'D'
       },
       {
         id: 'drop-melodic-2',
-        name: 'Drop Maj7',
-        subtext: 'Maj7',
-        notes: ['D2', 'F#2', 'A2', 'C#3'],
-        description: 'Open drop Maj7. Atmospheric.',
-        fretboard: '0 2 0 1 x x',
-        baseRoot: 'E'
+        name: 'Drop Bb Maj7',
+        subtext: 'Bb(VI)',
+        notes: ['Bb2', 'D3', 'F3', 'A3'],
+        description: 'Relative major. Bright contrast.',
+        fretboard: 'x 1 3 2 1 x',
+        baseRoot: 'A#'
       },
       {
         id: 'drop-melodic-3',
-        name: 'Drop Ethereal',
-        subtext: 'sus2/Maj7',
-        notes: ['D2', 'A2', 'C#3', 'E3', 'A3', 'D4'],
-        description: 'Drop shoegaze. Beautiful mud.',
-        fretboard: '0 2 1 3 0 0',
-        baseRoot: 'E'
+        name: 'Drop Gm Add9',
+        subtext: 'Gm(iv)',
+        notes: ['G2', 'D3', 'G3', 'A3', 'D4'],
+        description: 'Subdominant with extension. Flowing.',
+        fretboard: '3 0 0 2 0 x',
+        baseRoot: 'G'
       },
       {
         id: 'drop-melodic-4',
-        name: 'Drop Add9',
-        subtext: 'Add9',
-        notes: ['D2', 'F#2', 'A2', 'E3'],
-        description: 'Wide drop intervals. Emotional.',
-        fretboard: '0 2 0 2 x x',
-        baseRoot: 'E'
+        name: 'Drop Dm Maj7',
+        subtext: 'Dm(i)',
+        notes: ['D2', 'F2', 'A2', 'C#3', 'D4'],
+        description: 'Tonic with major 7th. Ethereal.',
+        fretboard: '0 3 0 1 0 x',
+        baseRoot: 'D'
       },
       {
         id: 'drop-melodic-5',
-        name: 'Drop Maj7sus2',
-        subtext: 'Maj7sus2',
-        notes: ['D2', 'E2', 'A2', 'C#3', 'D4'],
-        description: 'Suspended drop beauty. Opeth.',
-        fretboard: '0 2 0 1 0 x',
-        baseRoot: 'E'
+        name: 'Drop Bb sus2',
+        subtext: 'Bb(VI)sus2',
+        notes: ['Bb2', 'C3', 'F3', 'Bb3'],
+        description: 'Suspended VI. Smooth transition.',
+        fretboard: 'x 1 3 3 1 x',
+        baseRoot: 'A#'
       },
       {
         id: 'drop-melodic-6',
-        name: 'Drop m11',
-        subtext: 'm11',
-        notes: ['D2', 'F2', 'A2', 'C3', 'E3'],
-        description: 'Rich drop extension. Loathe.',
-        fretboard: '0 3 0 0 2 x',
-        baseRoot: 'E'
+        name: 'Drop Dm 11th',
+        subtext: 'Dm(i)11',
+        notes: ['D2', 'F2', 'A2', 'C3', 'E3', 'G3'],
+        description: 'Rich tonic extension. Loathe-style.',
+        fretboard: '0 3 0 0 2 3',
+        baseRoot: 'D'
       }
     ],
     [VibeMode.ENERGETIC]: [
+      // D Pedal Point: Open D string drones throughout
+      // All chords use D as constant drone for rhythmic cohesion
       {
         id: 'drop-energetic-1',
-        name: 'Drop Metalcore',
-        subtext: 'Sus2',
-        notes: ['D2', 'A2', 'D3', 'E3', 'A3'],
-        description: 'Drop sus2 stack. Tight chug.',
-        fretboard: '0 0 2 3 x x',
-        baseRoot: 'E'
-      },
-      {
-        id: 'drop-energetic-2',
-        name: 'Drop Power',
+        name: 'Drop D Power',
         subtext: '5th',
         notes: ['D2', 'A2', 'D3'],
         description: 'Classic drop power. Heavy.',
         fretboard: '0 0 2 x x x',
-        baseRoot: 'E'
+        baseRoot: 'D'
       },
       {
-        id: 'drop-energetic-3',
-        name: 'Drop Bleed',
-        subtext: 'Low Stack',
-        notes: ['D1', 'D2', 'A2'],
-        description: 'Ultra low-end. Palm mute.',
-        fretboard: '0 0 2 x x x',
-        baseRoot: 'E'
-      },
-      {
-        id: 'drop-energetic-4',
-        name: 'Drop Sus4',
+        id: 'drop-energetic-2',
+        name: 'Drop D Sus4',
         subtext: 'Sus4',
         notes: ['D2', 'G2', 'A2', 'D3'],
         description: 'Drop sus4 chug. Gallop-ready.',
         fretboard: '0 0 2 2 x x',
-        baseRoot: 'E'
+        baseRoot: 'D'
       },
       {
-        id: 'drop-energetic-5',
-        name: 'Drop Octave',
+        id: 'drop-energetic-3',
+        name: 'Drop D Sus2',
+        subtext: 'Sus2',
+        notes: ['D2', 'E2', 'A2', 'D3'],
+        description: 'Sus2 with D drone. Modern metalcore.',
+        fretboard: '0 2 0 0 x x',
+        baseRoot: 'D'
+      },
+      {
+        id: 'drop-energetic-4',
+        name: 'Drop D Octave',
         subtext: 'Octave',
         notes: ['D2', 'D3', 'A3'],
         description: 'Drop octaves. Rhythmic clarity.',
         fretboard: '0 0 0 x x x',
-        baseRoot: 'E'
+        baseRoot: 'D'
+      },
+      {
+        id: 'drop-energetic-5',
+        name: 'Drop D Low Stack',
+        subtext: 'Low 5th',
+        notes: ['D1', 'D2', 'A2'],
+        description: 'Ultra low-end. Palm mute.',
+        fretboard: '0 0 2 x x x',
+        baseRoot: 'D'
       },
       {
         id: 'drop-energetic-6',
-        name: 'Drop Double 5th',
+        name: 'Drop D Double 5th',
         subtext: '5th Stack',
         notes: ['D2', 'A2', 'D3', 'A3'],
         description: 'Double drop power. Maximum punch.',
         fretboard: '0 0 2 0 x x',
-        baseRoot: 'E'
+        baseRoot: 'D'
       }
     ]
   }

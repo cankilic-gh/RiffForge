@@ -437,7 +437,7 @@ const App: React.FC = () => {
             return (
               <div 
                 key={chord.id} 
-                className={`transition-transform duration-100 h-full relative ${activeChordId === chord.id ? 'scale-[0.98]' : ''}`}
+                className="h-full relative"
                 style={{ isolation: 'isolate', zIndex: 'auto' }}
               >
                 <ChordCard 

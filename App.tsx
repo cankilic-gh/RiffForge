@@ -50,29 +50,128 @@ const App: React.FC = () => {
   };
 
   const handleChordClick = async (chord: Chord) => {
+    // Only play the chord - don't lock it
+    // Locking only happens when lock button is pressed
     await playChord(chord);
+  };
+
+  const handleLockToggle = async (chord: Chord) => {
+    // When lock button is pressed, toggle the lock state
+    // If clicking the same locked chord, unlock it
+    // If clicking a different chord, lock that one instead
     
-    // Toggle lock: if clicking the locked parent, unlock. Otherwise, lock this chord.
-    if (lockedParentId === chord.id) {
+    // Check if this is a related chord (child) - if so, find its parent
+    const baseChords = CHORD_LIBRARY[tuningMode][vibeMode];
+    const transposedParents = baseChords.map(c => transposeChord(c, selectedRoot, tuningMode));
+    
+    // Check if chord.id exists in parent chords
+    const isParentChord = transposedParents.some(c => c.id === chord.id);
+    
+    let targetParentId: string | null = null;
+    
+    if (isParentChord) {
+      // It's a parent chord, use its id directly
+      targetParentId = chord.id;
+    } else {
+      // It's a related chord (child), find which parent it belongs to
+      for (const parent of transposedParents) {
+        if (parent.relatedChords) {
+          const transposedChildren = parent.relatedChords.map(child => 
+            transposeChord(child, selectedRoot, tuningMode)
+          );
+          const childMatch = transposedChildren.find(c => c.id === chord.id);
+          if (childMatch) {
+            // Found the parent, use parent's id
+            targetParentId = parent.id;
+            break;
+          }
+        }
+      }
+      // Fallback: if we can't find the parent, just use the chord's id
+      if (!targetParentId) {
+        targetParentId = chord.id;
+      }
+    }
+    
+    // Toggle logic: if clicking the same locked chord, unlock it
+    // Otherwise, lock the new chord
+    if (lockedParentId === targetParentId) {
+      // Same chord clicked - unlock it
       setLockedParentId(null);
     } else {
-      setLockedParentId(chord.id);
+      // Different chord clicked - lock it
+      await playChord(chord);
+      setLockedParentId(targetParentId);
     }
   };
 
+  // Calculate which chords are locked (parent + its children)
+  const lockedChordIds = React.useMemo(() => {
+    if (!lockedParentId) {
+      return new Set<string>();
+    }
+    
+    const lockedIds = new Set<string>([lockedParentId]);
+    
+    // Add all children of the locked parent
+    const baseChords = CHORD_LIBRARY[tuningMode][vibeMode];
+    const transposedParents = baseChords.map(c => transposeChord(c, selectedRoot, tuningMode));
+    const lockedParent = transposedParents.find(p => p.id === lockedParentId);
+    
+    if (lockedParent && lockedParent.relatedChords) {
+      const transposedChildren = lockedParent.relatedChords.map(child => 
+        transposeChord(child, selectedRoot, tuningMode)
+      );
+      transposedChildren.forEach(child => {
+        lockedIds.add(child.id);
+      });
+    }
+    
+    return lockedIds;
+  }, [selectedRoot, tuningMode, vibeMode, lockedParentId]);
+
+  // Helper function to check if a chord is locked
+  // Only the parent chord should be visually locked, not its children
+  const isChordLocked = React.useCallback((chord: Chord) => {
+    if (!lockedParentId) {
+      return false;
+    }
+    // Only return true if this chord is the locked parent itself
+    return chord.id === lockedParentId;
+  }, [lockedParentId]);
+
   // Dynamically calculate displayed chords based on selected root, tuning, and vibe
+  // When a chord is locked, show it in its original position + related chords in other positions
   const displayedChords = useMemo(() => {
     const baseChords = CHORD_LIBRARY[tuningMode][vibeMode];
     const transposedParents = baseChords.map(chord => transposeChord(chord, selectedRoot, tuningMode));
     
-    // If a parent is locked, show it + its 5 related children
+    // If a parent is locked, show it in its original position + related chords in other positions
     if (lockedParentId) {
-      const lockedParent = transposedParents.find(c => c.id === lockedParentId);
-      if (lockedParent && lockedParent.relatedChords) {
-        const transposedChildren = lockedParent.relatedChords.map(child => 
-          transposeChord(child, selectedRoot, tuningMode)
-        );
-        return [lockedParent, ...transposedChildren];
+      const lockedIndex = transposedParents.findIndex(c => c.id === lockedParentId);
+      if (lockedIndex !== -1) {
+        const lockedParent = transposedParents[lockedIndex];
+        if (lockedParent && lockedParent.relatedChords) {
+          // Transpose related chords
+          const transposedChildren = lockedParent.relatedChords.map(child => 
+            transposeChord(child, selectedRoot, tuningMode)
+          );
+          
+          // Create new array with locked parent in original position
+          const result = [...transposedParents];
+          result[lockedIndex] = lockedParent; // Keep locked parent in original position
+          
+          // Fill other positions with related chords
+          let childIndex = 0;
+          for (let i = 0; i < result.length; i++) {
+            if (i !== lockedIndex && childIndex < transposedChildren.length) {
+              result[i] = transposedChildren[childIndex];
+              childIndex++;
+            }
+          }
+          
+          return result;
+        }
       }
     }
     
@@ -152,20 +251,25 @@ const App: React.FC = () => {
         </div>
 
         {/* Chord Grid - Responsive: 1 col mobile, 2 cols tablet, 3 cols desktop */}
-        <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
-          {displayedChords.map((chord) => (
-            <div 
-              key={chord.id} 
-              className={`transition-transform duration-100 h-full ${activeChordId === chord.id ? 'scale-[0.98]' : ''}`}
-            >
-              <ChordCard 
-                chord={chord} 
-                isDistorted={isDistorted} 
-                onPlay={handleChordClick}
-                isLocked={lockedParentId === chord.id}
-              />
-            </div>
-          ))}
+        <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20" style={{ isolation: 'isolate' }}>
+          {displayedChords.map((chord) => {
+            const locked = isChordLocked(chord);
+            return (
+              <div 
+                key={chord.id} 
+                className={`transition-transform duration-100 h-full relative ${activeChordId === chord.id ? 'scale-[0.98]' : ''}`}
+                style={{ isolation: 'isolate', zIndex: 'auto' }}
+              >
+                <ChordCard 
+                  chord={chord} 
+                  isDistorted={isDistorted} 
+                  onPlay={handleChordClick}
+                  onLockToggle={handleLockToggle}
+                  isLocked={locked}
+                />
+              </div>
+            );
+          })}
         </main>
 
         {/* Footer */}

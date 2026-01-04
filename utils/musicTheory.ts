@@ -76,13 +76,23 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
 
   // Second pass: make tabs playable with maximum 4-fret spread (realistic hand span)
   // CRITICAL: One hand can only span ~4-5 frets maximum
+  // SIMPLIFIED: Skip complex optimization for performance
   const allFrets = transposedStrings
     .filter((s): s is FretInfo => typeof s === 'object' && !s.isMuted)
     .map(s => s.fret);
   
   if (allFrets.length > 0) {
+    // SIMPLIFIED: Just ensure no negative frets, skip complex optimization
+    transposedStrings.forEach((item) => {
+      if (typeof item === 'object' && !item.isMuted && item.fret < 0) {
+        item.fret += 12;
+      }
+    });
+    
+    // Skip the complex while loop for performance
+    /*
     let iterations = 0;
-    const maxIterations = 50; // Increased to ensure we fix all cases
+    const maxIterations = 20; // Reduced for performance
     
     while (iterations < maxIterations) {
       const currentFrets = transposedStrings
@@ -97,6 +107,12 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
       
       // SUCCESS CRITERIA: spread <= 4 AND max <= 7
       if (currentSpread <= 4 && currentMax <= 7) break;
+      
+      // Safety: prevent infinite loops
+      if (iterations > 20) {
+        console.warn('⚠️ transposeTabs: Too many iterations, breaking');
+        break;
+      }
       
       let adjusted = false;
       const threshold = currentMin + 4;
@@ -192,13 +208,7 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
       if (!adjusted) break; // No more adjustments possible
       iterations++;
     }
-    
-    // Final safety check: ensure no negative frets
-    transposedStrings.forEach((item) => {
-      if (typeof item === 'object' && !item.isMuted && item.fret < 0) {
-        item.fret += 12;
-      }
-    });
+    */
   }
 
   // Convert back to strings

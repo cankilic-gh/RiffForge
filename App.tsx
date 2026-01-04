@@ -5,11 +5,22 @@ import { ChordCard } from './components/ChordCard';
 import { RootSelector } from './components/RootSelector';
 import { TuningSelector } from './components/TuningSelector';
 import { VibeSelector } from './components/VibeSelector';
-import { CHORD_LIBRARY } from './constants';
+// Lazy load CHORD_LIBRARY to prevent blocking initial render
+let CHORD_LIBRARY: any = null;
+const getChordLibrary = async () => {
+  if (!CHORD_LIBRARY) {
+    const module = await import('./constants');
+    CHORD_LIBRARY = module.CHORD_LIBRARY;
+  }
+  return CHORD_LIBRARY;
+};
+
 import { Chord, TuningMode, VibeMode } from './types';
 import { transposeChord } from './utils/musicTheory';
 
 const App: React.FC = () => {
+  console.log('🎨 App component rendering...');
+  
   const [isDistorted, setIsDistorted] = useState(false);
   const [isAudioReady, setIsAudioReady] = useState(false);
   const [activeChordId, setActiveChordId] = useState<string | null>(null);
@@ -22,6 +33,7 @@ const App: React.FC = () => {
 
   // Reset lock and last displayed parent when tuning or vibe changes
   React.useEffect(() => {
+    console.log('🔄 Tuning or vibe changed, resetting locks');
     setLockedChordId(null);
     setLastDisplayedParentId(null);
     lastDisplayedChordsRef.current = null;
@@ -66,7 +78,8 @@ const App: React.FC = () => {
     // For child chords, lock the child itself (not its parent)
     
     // Check if this is a related chord (child) - if so, find its parent for display purposes
-    const baseChords = CHORD_LIBRARY[tuningMode][vibeMode];
+    const library = await getChordLibrary();
+    const baseChords = library[tuningMode][vibeMode];
     const transposedParents = baseChords.map(c => transposeChord(c, selectedRoot, tuningMode));
     
     // Check if chord.id exists in parent chords
@@ -101,18 +114,54 @@ const App: React.FC = () => {
     // Toggle logic: if clicking the same locked chord, unlock it
     // Otherwise, lock the new chord (lock the chord itself, not its parent)
     if (lockedChordId === chord.id) {
-      // Same chord clicked - unlock it
-      // If this was the only locked chord, reset to initial state
+      // Same chord clicked - unlock it, return to initial state
       setLockedChordId(null);
-      // Clear lastDisplayedParentId to return to initial state
       setLastDisplayedParentId(null);
       lastDisplayedChordsRef.current = null;
+      
+      // Reload initial 6 chords (reuse already loaded library)
+      setIsLoadingChords(true);
+      const library = CHORD_LIBRARY || await getChordLibrary();
+      const baseChords = library[tuningMode][vibeMode];
+      const initialBatch = baseChords.slice(0, CHORDS_PER_BATCH);
+      const transposed = initialBatch.map(c => transposeChord(c, selectedRoot, tuningMode));
+      setDisplayedChords(transposed);
+      setChordsToLoad(CHORDS_PER_BATCH);
+      setIsLoadingChords(false);
     } else {
-      // Different chord clicked - lock it (lock the chord itself)
+      // Different chord clicked - lock it and load related chords if needed
       await playChord(chord);
       setLockedChordId(chord.id);
-      // Update last displayed parent to show compatible chords
       setLastDisplayedParentId(targetParentId);
+      
+      // Load related chords if this chord has them (5 chords)
+      setIsLoadingChords(true);
+      console.log('🔒 Checking for related chords...');
+      
+      // Find the original parent from baseChords (before transpose)
+      const originalParent = baseChords.find(p => {
+        const transposed = transposeChord(p, selectedRoot, tuningMode);
+        return transposed.id === targetParentId || p.id === targetParentId;
+      });
+      
+      if (originalParent && originalParent.relatedChords && originalParent.relatedChords.length >= RELATED_CHORDS_COUNT) {
+        // Take first 5 related chords
+        const relatedBatch = originalParent.relatedChords.slice(0, RELATED_CHORDS_COUNT);
+        const transposedRelated = relatedBatch.map(relatedChord => 
+          transposeChord(relatedChord, selectedRoot, tuningMode)
+        );
+        
+        // Show locked parent + 5 related chords
+        const lockedTransposed = transposeChord(originalParent, selectedRoot, tuningMode);
+        setDisplayedChords([lockedTransposed, ...transposedRelated]);
+        console.log('✅ Loaded', transposedRelated.length, 'related chords');
+      } else {
+        // No related chords or not enough, just show the locked chord
+        const lockedTransposed = transposeChord(originalParent || chord, selectedRoot, tuningMode);
+        setDisplayedChords([lockedTransposed]);
+        console.log('ℹ️ No related chords to load');
+      }
+      setIsLoadingChords(false);
     }
   };
 
@@ -136,228 +185,147 @@ const App: React.FC = () => {
     return chord.id === lockedChordId;
   }, [lockedChordId]);
 
-  // Dynamically calculate displayed chords based on selected root, tuning, and vibe
-  // When a chord is locked, show it in its original position + related chords in other positions
-  // When unlocked, keep showing the last displayed parent's compatible chords
-  const displayedChords = useMemo(() => {
-    const baseChords = CHORD_LIBRARY[tuningMode][vibeMode];
-    const transposedParents = baseChords.map(chord => transposeChord(chord, selectedRoot, tuningMode));
+  // LAZY LOADING: Load chords progressively
+  const [displayedChords, setDisplayedChords] = React.useState<Chord[]>([]);
+  const [isLoadingChords, setIsLoadingChords] = React.useState(false);
+  const [chordsToLoad, setChordsToLoad] = React.useState(6); // Start with 6 chords
+  const [totalChordsAvailable, setTotalChordsAvailable] = React.useState(0);
+  const CHORDS_PER_BATCH = 6; // Initial load: 6 chords
+  const RELATED_CHORDS_COUNT = 5; // When locked, load 5 related chords
+  
+  // Load initial batch of chords - ULTRA FAST: Show UI first, load data after
+  React.useEffect(() => {
+    console.log('🔄 App useEffect triggered', { tuningMode, vibeMode, selectedRoot });
     
-    // Determine which parent to use for displaying compatible chords
-    // If a chord is locked, find its parent (if it's a child) or use it directly (if it's a parent)
-    // Otherwise, use lastDisplayedParentId if available
-    let parentIdToUse: string | null = null;
-    let lockedChord: Chord | null = null;
-    let isLockedChordAChild = false;
+    // IMMEDIATE: Show loading state instantly
+    setIsLoadingChords(true);
+    setDisplayedChords([]);
+    setChordsToLoad(6); // Reset to 6 for initial load
     
-    if (lockedChordId) {
-      // Check if locked chord is a parent
-      const lockedParent = transposedParents.find(c => c.id === lockedChordId);
-      if (lockedParent) {
-        parentIdToUse = lockedChordId;
-        lockedChord = lockedParent;
-      } else {
-        // It's a child, find its parent and the child itself
-        isLockedChordAChild = true;
-        for (const parent of transposedParents) {
-          if (parent.relatedChords) {
-            const transposedChildren = parent.relatedChords.map(child => 
-              transposeChord(child, selectedRoot, tuningMode)
-            );
-            const childMatch = transposedChildren.find(c => c.id === lockedChordId);
-            if (childMatch) {
-              parentIdToUse = parent.id;
-              lockedChord = childMatch;
-              break;
-            }
-          }
-        }
-      }
-    } else {
-      // No chord locked
-      // If lastDisplayedParentId is also null, return to initial state (show all 6 parents)
-      if (!lastDisplayedParentId) {
-        // Reset lastDisplayedChordsRef to null when returning to initial state
-        lastDisplayedChordsRef.current = null;
-        // Return default: show all 6 parents
-        return transposedParents;
-      }
-      // Otherwise, use last displayed parent to keep showing compatible chords
-      parentIdToUse = lastDisplayedParentId;
-    }
-    
-    if (parentIdToUse) {
-      const parentIndex = transposedParents.findIndex(c => c.id === parentIdToUse);
-      if (parentIndex !== -1) {
-        const parent = transposedParents[parentIndex];
-        if (parent && parent.relatedChords) {
-          // Transpose related chords
-          const transposedChildren = parent.relatedChords.map(child => 
-            transposeChord(child, selectedRoot, tuningMode)
-          );
+    // Load data asynchronously after UI is shown
+    requestAnimationFrame(() => {
+      setTimeout(async () => {
+        try {
+          console.log('🔄 Loading chords library...');
           
-          // If locked chord is a child, keep it in its original position
-          if (isLockedChordAChild && lockedChord) {
-            // Find the locked child's current position in last displayed chords
-            let lockedChildIndex = -1;
-            if (lastDisplayedChordsRef.current) {
-              lockedChildIndex = lastDisplayedChordsRef.current.findIndex(c => c.id === lockedChordId);
-            }
-            
-            // If we can't find it in last displayed, find it based on parent's children order
-            if (lockedChildIndex === -1) {
-              const childIndexInChildren = transposedChildren.findIndex(c => c.id === lockedChordId);
-              // Children are typically placed in positions 1-5 (after parent at position 0)
-              lockedChildIndex = childIndexInChildren >= 0 ? childIndexInChildren + 1 : 0;
-            }
-            
-            // Ensure index is valid (0-5)
-            lockedChildIndex = Math.max(0, Math.min(5, lockedChildIndex));
-            
-            // Create new array with locked child in its original position
-            const result: Chord[] = new Array(6).fill(null) as any;
-            result[lockedChildIndex] = lockedChord; // Keep locked child in its original position
-            
-            // Track which chords are already on screen and their positions
-            const existingChordPositions = new Map<string, number>();
-            if (lastDisplayedChordsRef.current) {
-              lastDisplayedChordsRef.current.forEach((chord, index) => {
-                if (chord && chord.id !== lockedChordId) {
-                  existingChordPositions.set(chord.id, index);
-                }
-              });
-            }
-            
-            // Add other children (excluding the locked child itself)
-            const otherChildren = transposedChildren.filter(c => c.id !== lockedChordId);
-            
-            // Fill other positions: first preserve existing chord positions, then add new ones
-            const chordsToAdd = [...otherChildren, parent];
-            const usedPositions = new Set([lockedChildIndex]);
-            
-            // First, place chords that are already on screen in their original positions
-            for (const chord of chordsToAdd) {
-              const existingPosition = existingChordPositions.get(chord.id);
-              if (existingPosition !== undefined && !usedPositions.has(existingPosition)) {
-                result[existingPosition] = chord;
-                usedPositions.add(existingPosition);
-              }
-            }
-            
-            // Then, fill remaining positions with chords that aren't on screen yet
-            let chordIndex = 0;
-            for (let i = 0; i < result.length; i++) {
-              if (!result[i] && !usedPositions.has(i)) {
-                // Find a chord that's not already placed
-                while (chordIndex < chordsToAdd.length) {
-                  const chord = chordsToAdd[chordIndex];
-                  // Check if this chord is already placed
-                  const alreadyPlaced = result.some(r => r && r.id === chord.id);
-                  if (!alreadyPlaced) {
-                    result[i] = chord;
-                    usedPositions.add(i);
-                    chordIndex++;
-                    break;
-                  }
-                  chordIndex++;
-                }
-              }
-            }
-            
-            // Fill any remaining empty slots with any available chords
-            const allAvailableChords = [...transposedChildren, ...transposedParents];
-            for (let i = 0; i < result.length; i++) {
-              if (!result[i]) {
-                const chord = allAvailableChords.find(c => !result.some(r => r && r.id === c.id));
-                if (chord) {
-                  result[i] = chord;
-                }
-              }
-            }
-            
-            // Final safety check: ensure all slots are filled
-            for (let i = 0; i < result.length; i++) {
-              if (!result[i]) {
-                // Use parent as fallback
-                result[i] = parent;
-              }
-            }
-            
-            return result;
-          } else {
-            // Normal case: parent is locked, show parent + children
-            // Preserve positions of chords that are already on screen
-            const result: Chord[] = new Array(6).fill(null) as any;
-            
-            // Track existing chord positions
-            const existingChordPositions = new Map<string, number>();
-            if (lastDisplayedChordsRef.current) {
-              lastDisplayedChordsRef.current.forEach((chord, index) => {
-                if (chord) {
-                  existingChordPositions.set(chord.id, index);
-                }
-              });
-            }
-            
-            // Keep parent in its original position
-            const parentExistingPosition = existingChordPositions.get(parent.id);
-            if (parentExistingPosition !== undefined) {
-              result[parentExistingPosition] = parent;
-            } else {
-              result[parentIndex] = parent; // Use original parent index if not found
-            }
-            
-            // Fill other positions: first preserve existing chord positions, then add new ones
-            const usedPositions = new Set<number>();
-            if (parentExistingPosition !== undefined) {
-              usedPositions.add(parentExistingPosition);
-            } else {
-              usedPositions.add(parentIndex);
-            }
-            
-            // First, place children that are already on screen in their original positions
-            for (const child of transposedChildren) {
-              const existingPosition = existingChordPositions.get(child.id);
-              if (existingPosition !== undefined && !result[existingPosition]) {
-                result[existingPosition] = child;
-                usedPositions.add(existingPosition);
-              }
-            }
-            
-            // Then, fill remaining positions with children that aren't on screen yet
-            let childIndex = 0;
-            for (let i = 0; i < result.length; i++) {
-              if (!result[i] && childIndex < transposedChildren.length) {
-                // Find a child that's not already placed
-                while (childIndex < transposedChildren.length) {
-                  const child = transposedChildren[childIndex];
-                  const alreadyPlaced = result.some(r => r && r.id === child.id);
-                  if (!alreadyPlaced) {
-                    result[i] = child;
-                    break;
-                  }
-                  childIndex++;
-                }
-                childIndex++;
-              }
-            }
-            
-            return result;
+          // Lazy load library
+          const library = await getChordLibrary();
+          
+          if (!library || !library[tuningMode] || !library[tuningMode][vibeMode]) {
+            console.error('❌ CHORD_LIBRARY not available');
+            setDisplayedChords([]);
+            setIsLoadingChords(false);
+            return;
           }
+          
+          const baseChords = library[tuningMode][vibeMode];
+          if (!baseChords || baseChords.length === 0) {
+            console.warn('⚠️ No chords found');
+            setDisplayedChords([]);
+            setIsLoadingChords(false);
+            return;
+          }
+          
+          setTotalChordsAvailable(baseChords.length);
+          
+          // ULTRA FAST: Show first 6 chords immediately without transpose
+          const firstBatch = baseChords.slice(0, CHORDS_PER_BATCH);
+          const strippedChords = firstBatch.map(chord => ({
+            ...chord,
+            relatedChords: undefined // Remove for speed
+          }));
+          
+          console.log('✅ Showing', strippedChords.length, 'chords (no transpose)');
+          setDisplayedChords(strippedChords as Chord[]);
+          setIsLoadingChords(false);
+          
+          // Transpose in background
+          setTimeout(() => {
+            console.log('🔄 Transposing in background...');
+            const transposed = firstBatch.map(chord => {
+              try {
+                return transposeChord(chord, selectedRoot, tuningMode);
+              } catch (e) {
+                console.error('Transpose error:', e);
+                return chord;
+              }
+            });
+            setDisplayedChords(transposed);
+            console.log('✅ Transpose done');
+          }, 150);
+        } catch (error) {
+          console.error('❌ Error loading chords:', error);
+          setDisplayedChords([]);
+          setIsLoadingChords(false);
         }
-      }
-    }
+      }, 50); // Very short delay
+    });
+  }, [selectedRoot, tuningMode, vibeMode]);
+  
+  // Load more chords function - with progressive transpose
+  const loadMoreChords = React.useCallback(async () => {
+    if (isLoadingChords) return;
     
-    // Default: show all 6 parents (only on initial load or when tuning/vibe changes)
-    return transposedParents;
-  }, [selectedRoot, tuningMode, vibeMode, lockedChordId, lastDisplayedParentId]);
+    setIsLoadingChords(true);
+    console.log('📥 Loading more chords...', chordsToLoad);
+    
+    try {
+      const library = CHORD_LIBRARY || await getChordLibrary();
+      if (!library || !library[tuningMode] || !library[tuningMode][vibeMode]) {
+        setIsLoadingChords(false);
+        return;
+      }
+      
+      const baseChords = library[tuningMode][vibeMode];
+      const nextBatch = baseChords.slice(chordsToLoad, chordsToLoad + CHORDS_PER_BATCH);
+      
+      if (nextBatch.length === 0) {
+        console.log('✅ All chords loaded');
+        setIsLoadingChords(false);
+        return;
+      }
+      
+      // Show chords immediately, transpose in background
+      setDisplayedChords(prev => [...prev, ...(nextBatch as Chord[])]);
+      setChordsToLoad(prev => prev + CHORDS_PER_BATCH);
+      
+      // Transpose in background
+      setTimeout(() => {
+        const transposed = nextBatch.map(chord => {
+          try {
+            return transposeChord(chord, selectedRoot, tuningMode);
+          } catch (e) {
+            console.error('Transpose error:', e);
+            return chord;
+          }
+        });
+        
+        // Replace untransposed chords with transposed ones
+        setDisplayedChords(prev => {
+          const newChords = [...prev];
+          const startIndex = prev.length - transposed.length;
+          transposed.forEach((chord, i) => {
+            newChords[startIndex + i] = chord;
+          });
+          return newChords;
+        });
+        console.log('✅ Transposed', transposed.length, 'more chords');
+      }, 100);
+      
+      setIsLoadingChords(false);
+    } catch (error) {
+      console.error('❌ Error loading more:', error);
+      setIsLoadingChords(false);
+    }
+  }, [chordsToLoad, tuningMode, vibeMode, selectedRoot, isLoadingChords]);
   
   // Store displayed chords for position tracking (using ref to avoid re-renders)
-  React.useEffect(() => {
-    if (displayedChords.length > 0) {
-      lastDisplayedChordsRef.current = displayedChords;
-    }
-  }, [displayedChords]);
+  // REMOVED to prevent infinite loop - this was causing the issue
+  // React.useEffect(() => {
+  //   if (displayedChords.length > 0) {
+  //     lastDisplayedChordsRef.current = displayedChords;
+  //   }
+  // }, [displayedChords]);
 
   return (
     <div className={`min-h-screen transition-colors duration-700 ${isDistorted ? 'bg-[#080505]' : 'bg-[#0a0a0a]'}`}>
@@ -432,24 +400,54 @@ const App: React.FC = () => {
 
         {/* Chord Grid - Responsive: 1 col mobile, 2 cols tablet, 3 cols desktop */}
         <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20" style={{ isolation: 'isolate' }}>
-          {displayedChords.map((chord) => {
-            const locked = isChordLocked(chord);
-            return (
-              <div 
-                key={chord.id} 
-                className="h-full relative"
-                style={{ isolation: 'isolate', zIndex: 'auto' }}
-              >
-                <ChordCard 
-                  chord={chord} 
-                  isDistorted={isDistorted} 
-                  onPlay={handleChordClick}
-                  onLockToggle={handleLockToggle}
-                  isLocked={locked}
-                />
+          {displayedChords && displayedChords.length > 0 ? (
+            <>
+              {displayedChords.map((chord) => {
+                const locked = isChordLocked(chord);
+                return (
+                  <div 
+                    key={chord.id} 
+                    className="h-full relative"
+                    style={{ isolation: 'isolate', zIndex: 'auto' }}
+                  >
+                    <ChordCard 
+                      chord={chord} 
+                      isDistorted={isDistorted} 
+                      onPlay={handleChordClick}
+                      onLockToggle={handleLockToggle}
+                      isLocked={locked}
+                    />
+                  </div>
+                );
+              })}
+              
+              {/* Load More Button - Only show if there are more chords to load */}
+              {chordsToLoad < totalChordsAvailable && (
+                <div className="col-span-full flex justify-center py-8">
+                  {isLoadingChords ? (
+                    <div className="flex items-center gap-3 text-neutral-400">
+                      <div className="w-5 h-5 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                      <span className="font-mono text-sm">Loading chords...</span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={loadMoreChords}
+                      className="px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 rounded-lg transition-all duration-200 font-mono text-sm uppercase tracking-wider"
+                    >
+                      Load More Chords ({totalChordsAvailable - displayedChords.length} remaining)
+                    </button>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="col-span-full text-center text-neutral-500 py-12">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                <p className="font-mono text-sm">Loading chords...</p>
               </div>
-            );
-          })}
+            </div>
+          )}
         </main>
 
         {/* Footer */}

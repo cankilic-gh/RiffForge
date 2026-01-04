@@ -74,15 +74,15 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
     return { fret: newFret, isOpen: fret === 0, isMuted: false };
   });
 
-  // Second pass: make tabs playable with maximum 7-fret spread
-  // Include ALL frets (including open strings) in spread calculation for realistic playability
+  // Second pass: make tabs playable with maximum 4-fret spread (realistic hand span)
+  // CRITICAL: One hand can only span ~4-5 frets maximum
   const allFrets = transposedStrings
     .filter((s): s is FretInfo => typeof s === 'object' && !s.isMuted)
     .map(s => s.fret);
   
   if (allFrets.length > 0) {
     let iterations = 0;
-    const maxIterations = 5; // Prevent infinite loops
+    const maxIterations = 50; // Increased to ensure we fix all cases
     
     while (iterations < maxIterations) {
       const currentFrets = transposedStrings
@@ -95,34 +95,110 @@ const transposeTabs = (originalTabs: string | undefined, semitones: number, tuni
       const currentMax = Math.max(...currentFrets);
       const currentSpread = currentMax - currentMin;
       
-      // Maximum 7-fret spread: if spread > 7, we need to adjust
-      // Also limit max fret to 8 for better playability
-      if (currentSpread <= 7 && currentMax <= 8) break;
-      
-      // Strategy: Move the highest frets down an octave
-      // Find the threshold - if spread > 7, move frets that are > (min + 7)
-      const threshold = currentMin + 7;
+      // SUCCESS CRITERIA: spread <= 4 AND max <= 7
+      if (currentSpread <= 4 && currentMax <= 7) break;
       
       let adjusted = false;
+      const threshold = currentMin + 4;
+      
+      // STEP 1: Try moving high frets down individually
       transposedStrings.forEach((item) => {
         if (typeof item === 'object' && !item.isMuted) {
-          // Move frets that exceed the 7-fret spread OR are >= 9
-          if (item.fret > threshold || item.fret >= 9) {
+          if (item.fret > threshold || item.fret >= 8) {
             const oldFret = item.fret;
             item.fret -= 12;
-            // If it goes negative, revert
-            if (item.fret < 0) {
-              item.fret = oldFret; // Revert
-            } else {
+            if (item.fret >= 0) {
               adjusted = true;
+            } else {
+              item.fret = oldFret; // Revert if negative
             }
           }
         }
       });
       
+      // STEP 2: Re-check after STEP 1 adjustments
+      const afterStep1Frets = transposedStrings
+        .filter((s): s is FretInfo => typeof s === 'object' && !s.isMuted)
+        .map(s => s.fret);
+      
+      if (afterStep1Frets.length > 0) {
+        const afterStep1Min = Math.min(...afterStep1Frets);
+        const afterStep1Max = Math.max(...afterStep1Frets);
+        const afterStep1Spread = afterStep1Max - afterStep1Min;
+        
+        // If still problematic, move entire chord up an octave
+        // This allows high frets to then be moved down
+        if (afterStep1Spread > 4 || afterStep1Max >= 8) {
+          const hasOpenOrLow = afterStep1Frets.some(f => f <= 2);
+          const hasHigh = afterStep1Frets.some(f => f >= 8);
+          
+          // If we have both low and high frets, move everything up
+          // This creates space to then move high frets down
+          if (hasOpenOrLow && hasHigh) {
+            transposedStrings.forEach((item) => {
+              if (typeof item === 'object' && !item.isMuted) {
+                item.fret += 12;
+              }
+            });
+            adjusted = true;
+            continue; // Re-check with new values
+          }
+          
+          // If only high frets, try moving them down
+          // If they can't go down, move everything up first
+          if (hasHigh && !hasOpenOrLow) {
+            const canMoveAnyDown = afterStep1Frets.some(f => f >= 8 && f - 12 >= 0);
+            if (!canMoveAnyDown) {
+              // Move everything up to create space
+              transposedStrings.forEach((item) => {
+                if (typeof item === 'object' && !item.isMuted) {
+                  item.fret += 12;
+                }
+              });
+              adjusted = true;
+              continue;
+            }
+          }
+        }
+      }
+      
+      if (!adjusted) {
+        // Last resort: if we can't adjust, try moving the highest frets down
+        const currentFretsAfterStep2 = transposedStrings
+          .filter((s): s is FretInfo => typeof s === 'object' && !s.isMuted)
+          .map(s => s.fret);
+        
+        if (currentFretsAfterStep2.length > 0) {
+          const highestFret = Math.max(...currentFretsAfterStep2);
+          if (highestFret >= 8) {
+            transposedStrings.forEach((item) => {
+              if (typeof item === 'object' && !item.isMuted && item.fret === highestFret) {
+                item.fret -= 12;
+                if (item.fret < 0) {
+                  // If negative, move everything up instead
+                  transposedStrings.forEach((i) => {
+                    if (typeof i === 'object' && !i.isMuted) {
+                      i.fret += 12;
+                    }
+                  });
+                }
+                adjusted = true;
+              }
+            });
+          }
+        }
+      }
+      
       if (!adjusted) break; // No more adjustments possible
       iterations++;
     }
+    
+    // Final safety check: ensure no negative frets
+    transposedStrings.forEach((item) => {
+      if (typeof item === 'object' && !item.isMuted && item.fret < 0) {
+        item.fret += 12;
+      }
+    });
   }
 
   // Convert back to strings

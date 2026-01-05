@@ -237,13 +237,33 @@ export const transposeChord = (chord: Chord, targetRoot: string, tuningMode: Tun
     ? `${targetRoot}${chord.subtext}` 
     : chord.subtext.replace(/^[A-G]#?/, targetRoot); 
 
-  // 4. Update Tabs
+  // 4. Update chord name if it contains a note (e.g., "C Major 7" -> "G Major 7")
+  // Only update if name starts with a note and distance is not 0
+  let newName = chord.name;
+  if (distance !== 0) {
+    // Check if name starts with a note (C, D, E, F, G, A, B, or with #)
+    // Pattern matches: "C Major", "Am Add9", "C#m", "F#7", etc.
+    const noteMatch = chord.name.match(/^([A-G]#?)(\s|$|m|M|Major|Minor|Maj|Min|7|9|add|sus|dim|aug|maj|min)/i);
+    if (noteMatch) {
+      const originalNote = noteMatch[1];
+      // Calculate the new note based on distance from baseRoot to targetRoot
+      const originalIndex = NOTES.indexOf(originalNote);
+      if (originalIndex !== -1) {
+        const newIndex = ((originalIndex + distance % 12) + 12) % 12;
+        const newNote = NOTES[newIndex];
+        // Replace the note in the name (case-insensitive, handles C# correctly)
+        newName = chord.name.replace(/^[A-G]#?/i, newNote);
+      }
+    }
+  }
+
+  // 5. Update Tabs
   // We always recalculate tabs because TuningMode might have changed even if root didn't.
   const newTabs = transposeTabs(chord.fretboard, distance, tuningMode);
 
   return {
     ...chord,
-    name: chord.name, 
+    name: newName, 
     subtext: newSubtext,
     notes: newNotes,
     fretboard: newTabs

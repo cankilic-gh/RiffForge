@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface DistortionSwitchProps {
   isDistorted: boolean;
@@ -9,56 +10,185 @@ export const DistortionSwitch: React.FC<DistortionSwitchProps> = ({ isDistorted,
   return (
     <div className="flex w-full gap-2 md:gap-4 h-24 mx-auto">
       {/* Clean Channel Button */}
-      <button
+      <ChannelButton
+        isActive={!isDistorted}
         onClick={() => onChange(false)}
-        className={`
-          relative flex-1 group flex flex-col items-center justify-center border-2 transition-all duration-300 overflow-hidden
-          ${!isDistorted 
-            ? 'border-cyan-500 bg-cyan-950/30 shadow-[0_0_20px_rgba(8,145,178,0.3)]' 
-            : 'border-neutral-800 bg-neutral-900/20 opacity-60 hover:opacity-100 hover:border-neutral-700 grayscale'
-          }
-        `}
-      >
-        <span className={`text-[10px] font-mono mb-1 tracking-widest ${!isDistorted ? 'text-cyan-400' : 'text-neutral-500'}`}>CHANNEL A</span>
-        <span className={`text-2xl md:text-3xl font-['Oswald'] uppercase ${!isDistorted ? 'text-cyan-100 drop-shadow-[0_0_5px_rgba(8,145,178,0.8)]' : 'text-neutral-600'}`}>
-          CLEAN
-        </span>
-        
-        {/* Active Corners for Clean */}
-        {!isDistorted && (
-            <>
-             <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-cyan-500"></div>
-             <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-cyan-500"></div>
-            </>
-        )}
-      </button>
+        channel="A"
+        label="CLEAN"
+        activeColor="cyan"
+      />
 
       {/* Dirty Channel Button */}
-      <button
+      <ChannelButton
+        isActive={isDistorted}
         onClick={() => onChange(true)}
-        className={`
-          relative flex-1 group flex flex-col items-center justify-center border-2 transition-all duration-300 overflow-hidden
-          ${isDistorted 
-            ? 'border-rose-600 bg-rose-950/30 shadow-[0_0_30px_rgba(225,29,72,0.4)]' 
-            : 'border-neutral-800 bg-neutral-900/20 opacity-60 hover:opacity-100 hover:border-neutral-700 grayscale'
-          }
-        `}
-      >
-        <span className={`text-[10px] font-mono mb-1 tracking-widest ${isDistorted ? 'text-rose-400' : 'text-neutral-500'}`}>CHANNEL B</span>
-        <span className={`text-2xl md:text-3xl font-['Oswald'] uppercase ${isDistorted ? 'text-rose-100 drop-shadow-[0_0_8px_rgba(225,29,72,0.8)]' : 'text-neutral-600'}`}>
-          DISTORTION
-        </span>
-        
-         {/* Active Corners for Dirty */}
-         {isDistorted && (
-            <>
-             <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-rose-600"></div>
-             <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-rose-600"></div>
-             {/* Texture Overlay */}
-             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none mix-blend-overlay"></div>
-            </>
-        )}
-      </button>
+        channel="B"
+        label="DISTORTION"
+        activeColor="rose"
+        showTexture
+      />
     </div>
+  );
+};
+
+interface ChannelButtonProps {
+  isActive: boolean;
+  onClick: () => void;
+  channel: string;
+  label: string;
+  activeColor: 'cyan' | 'rose';
+  showTexture?: boolean;
+}
+
+const ChannelButton: React.FC<ChannelButtonProps> = ({
+  isActive,
+  onClick,
+  channel,
+  label,
+  activeColor,
+  showTexture = false
+}) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    setMousePosition({
+      x: (e.clientX - centerX) * 0.1,
+      y: (e.clientY - centerY) * 0.1
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePosition({ x: 0, y: 0 });
+  };
+
+  const colors = {
+    cyan: {
+      border: 'border-cyan-500',
+      bg: 'bg-cyan-950/30',
+      shadow: '0 0 30px rgba(8, 145, 178, 0.4)',
+      text: 'text-cyan-400',
+      textGlow: '0 0 10px rgba(8, 145, 178, 0.8)',
+      labelGlow: '0 0 20px rgba(8, 145, 178, 0.6)'
+    },
+    rose: {
+      border: 'border-rose-600',
+      bg: 'bg-rose-950/30',
+      shadow: '0 0 40px rgba(225, 29, 72, 0.5)',
+      text: 'text-rose-400',
+      textGlow: '0 0 10px rgba(225, 29, 72, 0.8)',
+      labelGlow: '0 0 20px rgba(225, 29, 72, 0.6)'
+    }
+  };
+
+  const colorConfig = colors[activeColor];
+
+  return (
+    <motion.button
+      ref={buttonRef}
+      onClick={onClick}
+      className={`
+        relative flex-1 group flex flex-col items-center justify-center border-2 overflow-hidden
+        ${isActive
+          ? `${colorConfig.border} ${colorConfig.bg}`
+          : 'border-neutral-800 bg-neutral-900/20'
+        }
+      `}
+      style={{
+        boxShadow: isActive ? colorConfig.shadow : 'none'
+      }}
+      animate={{
+        x: mousePosition.x,
+        y: mousePosition.y,
+        opacity: isActive ? 1 : 0.6,
+        filter: isActive ? 'grayscale(0)' : 'grayscale(1)'
+      }}
+      whileHover={{
+        opacity: 1,
+        scale: 1.02,
+        filter: 'grayscale(0)'
+      }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Animated Glow Background */}
+      {isActive && (
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0.3, 0.5, 0.3],
+            background: activeColor === 'cyan'
+              ? 'radial-gradient(circle at center, rgba(8, 145, 178, 0.2) 0%, transparent 70%)'
+              : 'radial-gradient(circle at center, rgba(225, 29, 72, 0.2) 0%, transparent 70%)'
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      )}
+
+      {/* Channel Label */}
+      <motion.span
+        className={`text-[10px] font-mono mb-1 tracking-widest ${isActive ? colorConfig.text : 'text-neutral-500'}`}
+        animate={{
+          textShadow: isActive ? colorConfig.textGlow : 'none'
+        }}
+      >
+        CHANNEL {channel}
+      </motion.span>
+
+      {/* Main Label */}
+      <motion.span
+        className={`text-2xl md:text-3xl font-['Oswald'] uppercase ${isActive ? 'text-white' : 'text-neutral-600'}`}
+        animate={{
+          textShadow: isActive ? colorConfig.labelGlow : 'none',
+          scale: isActive ? 1 : 0.95
+        }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      >
+        {label}
+      </motion.span>
+
+      {/* Active Corners - Animated */}
+      {isActive && (
+        <>
+          <motion.div
+            className={`absolute w-3 h-3 border-t-2 border-l-2 ${colorConfig.border}`}
+            initial={{ top: -10, left: -10, opacity: 0 }}
+            animate={{ top: 0, left: 0, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.div
+            className={`absolute w-3 h-3 border-b-2 border-r-2 ${colorConfig.border}`}
+            initial={{ bottom: -10, right: -10, opacity: 0 }}
+            animate={{ bottom: 0, right: 0, opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          />
+        </>
+      )}
+
+      {/* Texture Overlay for Distortion */}
+      {showTexture && isActive && (
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none mix-blend-overlay" />
+      )}
+
+      {/* Scan Line Effect for Active */}
+      {isActive && (
+        <motion.div
+          className="absolute inset-0 pointer-events-none overflow-hidden"
+          style={{
+            background: `linear-gradient(transparent 50%, rgba(0,0,0,0.1) 50%)`,
+            backgroundSize: '100% 4px'
+          }}
+          animate={{ opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+      )}
+    </motion.button>
   );
 };

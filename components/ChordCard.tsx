@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Chord } from '../types';
 
 interface ChordCardProps {
@@ -7,22 +8,78 @@ interface ChordCardProps {
   onPlay: (chord: Chord) => void;
   onLockToggle?: (chord: Chord) => void;
   isLocked?: boolean;
+  index?: number;
+  skipInitialAnimation?: boolean;
 }
 
-export const ChordCard: React.FC<ChordCardProps> = ({ 
-  chord, 
-  isDistorted, 
-  onPlay, 
+export const ChordCard: React.FC<ChordCardProps> = ({
+  chord,
+  isDistorted,
+  onPlay,
   onLockToggle,
-  isLocked = false 
+  isLocked = false,
+  index = 0,
+  skipInitialAnimation = false
 }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [glowPosition, setGlowPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(skipInitialAnimation);
+
+  // Mark as animated after first render
+  useEffect(() => {
+    if (!hasAnimated) {
+      const timer = setTimeout(() => setHasAnimated(true), 600);
+      return () => clearTimeout(timer);
+    }
+  }, [hasAnimated]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setGlowPosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
+  const glowColor = isDistorted
+    ? 'rgba(225, 29, 72, 0.4)'
+    : 'rgba(8, 145, 178, 0.4)';
+
+  const accentColor = isDistorted ? 'rose' : 'cyan';
+
   return (
-    <div className="relative w-full h-full group" style={{ pointerEvents: 'auto', isolation: 'isolate' }}>
+    <motion.div
+      ref={cardRef}
+      className="relative w-full h-full group"
+      style={{ pointerEvents: 'auto', isolation: 'isolate' }}
+      initial={hasAnimated ? false : { opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: hasAnimated ? 0.2 : 0.5,
+        delay: hasAnimated ? 0 : index * 0.08,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }}
+      whileHover={{ y: -8 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {/* Cursor-following Glow Effect */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none rounded-lg opacity-0"
+        style={{
+          background: `radial-gradient(600px circle at ${glowPosition.x}px ${glowPosition.y}px, ${glowColor}, transparent 40%)`,
+          opacity: isHovering ? 1 : 0,
+          transition: 'opacity 0.3s ease'
+        }}
+      />
 
       {/* Main Card */}
-      <div
-        className="relative overflow-hidden p-6 text-left transition-all duration-300 group w-full h-full flex flex-col justify-between"
-        style={{ 
+      <motion.div
+        className="relative overflow-hidden p-6 text-left transition-all duration-300 group w-full h-full flex flex-col justify-between rounded-lg"
+        style={{
           pointerEvents: 'auto',
           ...(isLocked
             ? isDistorted
@@ -39,16 +96,17 @@ export const ChordCard: React.FC<ChordCardProps> = ({
             : isDistorted
               ? {
                   border: '1px solid rgba(127, 29, 29, 0.35)',
-                  background: 'rgba(0, 0, 0, 0.1)'
+                  background: 'rgba(0, 0, 0, 0.2)'
                 }
               : {
-                  border: '1px solid rgba(115, 115, 115, 0.35)',
-                  background: 'rgba(0, 0, 0, 0.05)'
+                  border: '1px solid rgba(115, 115, 115, 0.25)',
+                  background: 'rgba(0, 0, 0, 0.15)'
                 }
           )
         }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
         onClick={(e) => {
-          // Prevent card click if clicking on lock button area
           const target = e.target as HTMLElement;
           if (target.closest('button[aria-label="Lock as main chord"]')) {
             e.stopPropagation();
@@ -57,18 +115,32 @@ export const ChordCard: React.FC<ChordCardProps> = ({
           }
         }}
       >
-        {/* Background Text Faded - First 2 letters of chord name */}
-        <span className="absolute -right-4 -bottom-8 text-9xl font-['Oswald'] font-bold text-white opacity-[0.03] select-none pointer-events-none group-hover:opacity-[0.07] transition-opacity">
-          {chord.name.substring(0, 2).toUpperCase()}
-        </span>
+        {/* Border Glow on Hover */}
+        <motion.div
+          className="absolute inset-0 rounded-lg pointer-events-none"
+          style={{
+            background: `radial-gradient(400px circle at ${glowPosition.x}px ${glowPosition.y}px, ${isDistorted ? 'rgba(225, 29, 72, 0.15)' : 'rgba(8, 145, 178, 0.15)'}, transparent 40%)`,
+            opacity: isHovering ? 1 : 0,
+            transition: 'opacity 0.3s ease'
+          }}
+        />
 
-        {/* Main Clickable Area - Exclude top-right corner for lock button */}
+        {/* Background Text Faded - First 2 letters of chord name */}
+        <motion.span
+          className="absolute -right-4 -bottom-8 text-9xl font-['Oswald'] font-bold text-white select-none pointer-events-none"
+          initial={{ opacity: 0.03 }}
+          whileHover={{ opacity: 0.08 }}
+          style={{ opacity: isHovering ? 0.08 : 0.03 }}
+        >
+          {chord.name.substring(0, 2).toUpperCase()}
+        </motion.span>
+
+        {/* Main Clickable Area */}
         <button
           type="button"
           onClick={(e) => {
-            // Don't trigger if clicking on lock button
             const target = e.target as HTMLElement;
-            const lockButton = target.closest('button[aria-label="Lock as main chord"]') || 
+            const lockButton = target.closest('button[aria-label="Lock as main chord"]') ||
                               target.closest('div[class*="z-\\[999999\\]"]');
             if (lockButton) {
               e.stopPropagation();
@@ -80,166 +152,187 @@ export const ChordCard: React.FC<ChordCardProps> = ({
           className="relative z-10 w-full text-left flex-1 flex flex-col"
           style={{ pointerEvents: 'auto' }}
         >
-        <div className="relative z-10 w-full">
-          {/* Header with Title and Lock Switch */}
-          <div className="flex items-start justify-between mb-1">
-            <div className="flex-1">
-              <h3 className={`font-['Oswald'] text-2xl uppercase tracking-wide ${isDistorted ? 'group-hover:text-rose-400' : 'group-hover:text-cyan-400'}`}>
-                {chord.name}
-              </h3>
-              <p className="font-['Share_Tech_Mono'] text-xs text-neutral-500 mb-4 tracking-wider">
-                {chord.subtext}
-              </p>
-            </div>
-            
-            {/* Lock Button - Circular 3D Glass Style */}
-            {onLockToggle && (
-              <div
-                className="relative shrink-0 ml-4"
-                style={{ 
-                  pointerEvents: 'auto',
-                  zIndex: 10,
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  e.nativeEvent.stopImmediatePropagation();
-                  if (onLockToggle) {
-                    onLockToggle(chord);
-                  }
-                }}
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  e.nativeEvent.stopImmediatePropagation();
-                }}
-              >
-                {/* Circular 3D Glass Button */}
-                <button
-                  type="button"
-                  className={`
-                    relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer
-                  `}
-                  data-locked={isLocked ? 'true' : 'false'}
-                  title={isLocked ? "Unlock chord" : "Lock chord"}
-                  aria-label={isLocked ? "Unlock chord" : "Lock chord"}
-                  style={{ 
-                    pointerEvents: 'auto',
-                    position: 'relative',
-                    zIndex: 10,
-                    background: isLocked 
-                      ? 'radial-gradient(circle at 30% 30%, rgba(30, 30, 30, 0.9), rgba(10, 10, 10, 0.95))'
-                      : 'radial-gradient(circle at 30% 30%, rgba(40, 40, 40, 0.8), rgba(20, 20, 20, 0.9))',
-                    boxShadow: isLocked
-                      ? '0 0 0 1px rgba(239, 68, 68, 0.6), 0 0 20px rgba(239, 68, 68, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.5)'
-                      : '0 0 0 1px rgba(100, 100, 100, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.05), inset 0 -1px 2px rgba(0, 0, 0, 0.5)',
-                    transition: 'all 0.3s ease'
-                  }}
+          <div className="relative z-10 w-full">
+            {/* Header with Title and Lock Switch */}
+            <div className="flex items-start justify-between mb-1">
+              <div className="flex-1 overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.h3
+                    key={chord.name}
+                    className={`font-['Oswald'] text-2xl uppercase tracking-wide text-neutral-100`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.15 }}
+                    whileHover={{
+                      color: isDistorted ? '#fb7185' : '#22d3ee',
+                      textShadow: isDistorted
+                        ? '0 0 20px rgba(225, 29, 72, 0.5)'
+                        : '0 0 20px rgba(8, 145, 178, 0.5)'
+                    }}
+                  >
+                    {chord.name}
+                  </motion.h3>
+                </AnimatePresence>
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={chord.subtext}
+                    className="font-['Share_Tech_Mono'] text-xs text-neutral-500 mb-4 tracking-wider"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }}
+                  >
+                    {chord.subtext}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+
+              {/* Lock Button - Animated */}
+              {onLockToggle && (
+                <motion.div
+                  className="relative shrink-0 ml-4"
+                  style={{ pointerEvents: 'auto', zIndex: 10 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
                     e.nativeEvent.stopImmediatePropagation();
-                    if (onLockToggle) {
-                      onLockToggle(chord);
-                    }
+                    if (onLockToggle) onLockToggle(chord);
                   }}
                   onMouseDown={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    e.nativeEvent.stopImmediatePropagation();
                   }}
                 >
-                  {/* Glowing Ring when Locked */}
-                  {isLocked && (
-                    <div 
-                      className="absolute inset-0 rounded-full pointer-events-none"
-                      style={{
-                        boxShadow: '0 0 0 1px rgba(239, 68, 68, 0.8), 0 0 15px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.3)',
-                        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-                      }}
-                    />
-                  )}
-                  
-                  {/* Lock Icon SVG */}
-                  <svg 
-                    className={`
-                      w-4 h-4 transition-all duration-300 relative z-10
-                      ${isLocked ? 'text-red-500' : 'text-neutral-400'}
-                    `}
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    viewBox="0 0 24 24"
+                  <motion.button
+                    type="button"
+                    className="relative w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
+                    data-locked={isLocked ? 'true' : 'false'}
+                    title={isLocked ? "Unlock chord" : "Lock chord"}
+                    aria-label={isLocked ? "Unlock chord" : "Lock chord"}
                     style={{
-                      filter: isLocked 
-                        ? 'drop-shadow(0 0 6px rgba(239, 68, 68, 1)) drop-shadow(0 0 12px rgba(239, 68, 68, 0.8))' 
-                        : 'none',
-                      transition: 'filter 0.3s ease'
+                      pointerEvents: 'auto',
+                      position: 'relative',
+                      zIndex: 10,
+                      background: isLocked
+                        ? 'radial-gradient(circle at 30% 30%, rgba(30, 30, 30, 0.9), rgba(10, 10, 10, 0.95))'
+                        : 'radial-gradient(circle at 30% 30%, rgba(40, 40, 40, 0.8), rgba(20, 20, 20, 0.9))',
+                      boxShadow: isLocked
+                        ? '0 0 0 1px rgba(239, 68, 68, 0.6), 0 0 20px rgba(239, 68, 68, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+                        : '0 0 0 1px rgba(100, 100, 100, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.05)'
+                    }}
+                    animate={{
+                      boxShadow: isLocked
+                        ? [
+                            '0 0 0 1px rgba(239, 68, 68, 0.6), 0 0 20px rgba(239, 68, 68, 0.4)',
+                            '0 0 0 1px rgba(239, 68, 68, 0.8), 0 0 30px rgba(239, 68, 68, 0.6)',
+                            '0 0 0 1px rgba(239, 68, 68, 0.6), 0 0 20px rgba(239, 68, 68, 0.4)'
+                          ]
+                        : '0 0 0 1px rgba(100, 100, 100, 0.2)'
+                    }}
+                    transition={{ duration: 2, repeat: isLocked ? Infinity : 0 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      if (onLockToggle) onLockToggle(chord);
                     }}
                   >
-                    {isLocked ? (
-                      // Locked icon (closed lock)
-                      <>
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                      </>
-                    ) : (
-                      // Unlocked icon (open lock)
-                      <>
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                        <path d="M7 11V7a5 5 0 0 1 9.33-2.5" />
-                      </>
-                    )}
-                  </svg>
-                  
-                  {/* Top Highlight for 3D Effect */}
-                  <div 
-                    className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full pointer-events-none"
-                    style={{
-                      background: isLocked
-                        ? 'radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%)'
-                        : 'radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%)',
-                      top: '15%'
-                    }}
-                  />
-                </button>
-              </div>
-            )}
-          </div>
-          
-          <div className="flex items-end justify-between mb-4">
-            <p className="text-sm text-neutral-400 font-light leading-snug max-w-[80%]">
-              {chord.description}
-            </p>
-            
-            {/* Play Icon */}
-            <div className={`
-              shrink-0 w-8 h-8 flex items-center justify-center rounded-full border 
-              ${isDistorted ? 'border-rose-900 text-rose-500' : 'border-neutral-700 text-neutral-500'}
-              group-hover:border-current transition-colors
-            `}>
-              <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
+                    {/* Lock Icon SVG */}
+                    <motion.svg
+                      className="w-4 h-4 relative z-10"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      viewBox="0 0 24 24"
+                      animate={{
+                        color: isLocked ? '#ef4444' : '#a3a3a3',
+                        filter: isLocked
+                          ? 'drop-shadow(0 0 6px rgba(239, 68, 68, 1))'
+                          : 'none'
+                      }}
+                    >
+                      {isLocked ? (
+                        <>
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </>
+                      ) : (
+                        <>
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                          <path d="M7 11V7a5 5 0 0 1 9.33-2.5" />
+                        </>
+                      )}
+                    </motion.svg>
+
+                    {/* Top Highlight */}
+                    <div
+                      className="absolute top-[15%] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full pointer-events-none"
+                      style={{
+                        background: isLocked
+                          ? 'radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%)'
+                          : 'radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%)'
+                      }}
+                    />
+                  </motion.button>
+                </motion.div>
+              )}
+            </div>
+
+            <div className="flex items-end justify-between mb-4">
+              <p className="text-sm text-neutral-400 font-light leading-snug max-w-[80%]">
+                {chord.description}
+              </p>
+
+              {/* Play Icon - Animated */}
+              <motion.div
+                className={`
+                  shrink-0 w-8 h-8 flex items-center justify-center rounded-full border
+                  ${isDistorted ? 'border-rose-900 text-rose-500' : 'border-neutral-700 text-neutral-500'}
+                `}
+                whileHover={{
+                  scale: 1.2,
+                  borderColor: isDistorted ? '#f43f5e' : '#22d3ee',
+                  boxShadow: isDistorted
+                    ? '0 0 20px rgba(244, 63, 94, 0.5)'
+                    : '0 0 20px rgba(34, 211, 238, 0.5)'
+                }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </motion.div>
             </div>
           </div>
-        </div>
-        
-        {/* Fretboard Data (Technical look) - Pushed to bottom via flex layout */}
-        <div className="relative z-10 w-full pt-3 border-t border-white/5 flex justify-between items-center mt-auto">
-           <span className="font-mono text-[10px] text-neutral-600 opacity-60">TABLATURE</span>
-           <span className={`font-mono text-sm tracking-[0.25em] font-bold ${
-              isDistorted 
-                ? 'text-rose-500 drop-shadow-[0_0_8px_rgba(225,29,72,0.6)]' 
-                : 'text-cyan-500 drop-shadow-[0_0_8px_rgba(8,145,178,0.6)]'
-           }`}>
+
+          {/* Fretboard Data */}
+          <div className="relative z-10 w-full pt-3 border-t border-white/5 flex justify-between items-center mt-auto">
+            <span className="font-mono text-[10px] text-neutral-600 opacity-60">TABLATURE</span>
+            <motion.span
+              className={`font-mono text-sm tracking-[0.25em] font-bold ${
+                isDistorted
+                  ? 'text-rose-500'
+                  : 'text-cyan-500'
+              }`}
+              animate={{
+                textShadow: isHovering
+                  ? (isDistorted
+                      ? '0 0 15px rgba(225, 29, 72, 0.8)'
+                      : '0 0 15px rgba(8, 145, 178, 0.8)')
+                  : (isDistorted
+                      ? '0 0 8px rgba(225, 29, 72, 0.6)'
+                      : '0 0 8px rgba(8, 145, 178, 0.6)')
+              }}
+            >
               {chord.fretboard}
-           </span>
-        </div>
-      </button>
-      </div>
-    </div>
+            </motion.span>
+          </div>
+        </button>
+      </motion.div>
+    </motion.div>
   );
 };

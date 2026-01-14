@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { audioEngine } from './services/audioEngine';
 import { DistortionSwitch } from './components/DistortionSwitch';
 import { ChordCard } from './components/ChordCard';
@@ -328,31 +329,82 @@ const App: React.FC = () => {
   // }, [displayedChords]);
 
   return (
-    <div className={`min-h-screen transition-colors duration-700 ${isDistorted ? 'bg-[#080505]' : 'bg-[#0a0a0a]'}`}>
-      
+    <motion.div
+      className={`min-h-screen transition-colors duration-700 ${isDistorted ? 'bg-[#080505]' : 'bg-[#0a0a0a]'}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+
+      {/* Animated Background Glow */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          className="absolute w-[800px] h-[800px] rounded-full opacity-20"
+          style={{
+            background: isDistorted
+              ? 'radial-gradient(circle, rgba(225, 29, 72, 0.3) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(8, 145, 178, 0.3) 0%, transparent 70%)',
+            left: '50%',
+            top: '20%',
+            transform: 'translate(-50%, -50%)',
+            filter: 'blur(100px)'
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.15, 0.25, 0.15]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </div>
+
       {/* Background Ambiance / Noise */}
       <div className="fixed inset-0 opacity-[0.02] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-      
+
       {/* Main Container - Expanded to max-w-7xl for wider layout */}
       <div className={`relative z-10 max-w-7xl mx-auto px-6 py-12 flex flex-col min-h-screen ${isDistorted ? 'glitch-active' : ''}`}>
-        
-        {/* Header */}
-        <header className="mb-12 text-center">
+
+        {/* Header - Animated */}
+        <motion.header
+          className="mb-12 text-center"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
           <div className="inline-block mb-4">
-            <h1 className={`
-              text-5xl md:text-7xl font-['Oswald'] font-bold tracking-tighter uppercase
-              ${isDistorted 
-                ? 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-900 drop-shadow-[0_2px_10px_rgba(225,29,72,0.5)]' 
-                : 'text-neutral-100 drop-shadow-lg'
-              }
-            `}>
-              Riff<span className={isDistorted ? 'text-rose-500' : 'text-cyan-500'}>Forge</span>
-            </h1>
+            <motion.h1
+              className={`
+                text-5xl md:text-7xl font-['Oswald'] font-bold tracking-tighter uppercase
+                ${isDistorted
+                  ? 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-900'
+                  : 'text-neutral-100'
+                }
+              `}
+              animate={{
+                textShadow: isDistorted
+                  ? '0 2px 20px rgba(225, 29, 72, 0.5)'
+                  : '0 2px 10px rgba(255, 255, 255, 0.1)'
+              }}
+            >
+              Riff<motion.span
+                className={isDistorted ? 'text-rose-500' : 'text-cyan-500'}
+                animate={{
+                  textShadow: isDistorted
+                    ? ['0 0 20px rgba(225, 29, 72, 0.8)', '0 0 40px rgba(225, 29, 72, 0.5)', '0 0 20px rgba(225, 29, 72, 0.8)']
+                    : ['0 0 20px rgba(8, 145, 178, 0.8)', '0 0 40px rgba(8, 145, 178, 0.5)', '0 0 20px rgba(8, 145, 178, 0.8)']
+                }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              >Forge</motion.span>
+            </motion.h1>
           </div>
-          <p className="font-['Share_Tech_Mono'] text-neutral-500 tracking-widest text-sm uppercase">
+          <motion.p
+            className="font-['Share_Tech_Mono'] text-neutral-500 tracking-widest text-sm uppercase"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
             Context-Aware Sonic Prototyping
-          </p>
-        </header>
+          </motion.p>
+        </motion.header>
 
         {/* Control Center - Constrained width to keep UI tight while main grid is wide */}
         <div className="w-full max-w-4xl mx-auto">
@@ -402,20 +454,24 @@ const App: React.FC = () => {
         <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20" style={{ isolation: 'isolate' }}>
           {displayedChords && displayedChords.length > 0 ? (
             <>
-              {displayedChords.map((chord) => {
+              {displayedChords.map((chord, index) => {
                 const locked = isChordLocked(chord);
+                // Use index as key to prevent layout jumps on root change
+                // The chord content will smoothly update
                 return (
-                  <div 
-                    key={chord.id} 
+                  <div
+                    key={`chord-slot-${index}`}
                     className="h-full relative"
                     style={{ isolation: 'isolate', zIndex: 'auto' }}
                   >
-                    <ChordCard 
-                      chord={chord} 
-                      isDistorted={isDistorted} 
+                    <ChordCard
+                      chord={chord}
+                      isDistorted={isDistorted}
                       onPlay={handleChordClick}
                       onLockToggle={handleLockToggle}
                       isLocked={locked}
+                      index={index}
+                      skipInitialAnimation={index < 6}
                     />
                   </div>
                 );
@@ -423,42 +479,69 @@ const App: React.FC = () => {
               
               {/* Load More Button - Only show if there are more chords to load */}
               {chordsToLoad < totalChordsAvailable && (
-                <div className="col-span-full flex justify-center py-8">
+                <motion.div
+                  className="col-span-full flex justify-center py-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
                   {isLoadingChords ? (
                     <div className="flex items-center gap-3 text-neutral-400">
-                      <div className="w-5 h-5 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                      <motion.div
+                        className={`w-5 h-5 border-2 ${isDistorted ? 'border-rose-500' : 'border-cyan-500'} border-t-transparent rounded-full`}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      />
                       <span className="font-mono text-sm">Loading chords...</span>
                     </div>
                   ) : (
-                    <button
+                    <motion.button
                       onClick={loadMoreChords}
-                      className="px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 rounded-lg transition-all duration-200 font-mono text-sm uppercase tracking-wider"
+                      className={`px-6 py-3 ${isDistorted ? 'bg-rose-500/20 hover:bg-rose-500/30 border-rose-500/50 hover:border-rose-500 text-rose-400' : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/50 hover:border-cyan-500 text-cyan-400'} border rounded-lg font-mono text-sm uppercase tracking-wider`}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       Load More Chords ({totalChordsAvailable - displayedChords.length} remaining)
-                    </button>
+                    </motion.button>
                   )}
-                </div>
+                </motion.div>
               )}
             </>
           ) : (
-            <div className="col-span-full text-center text-neutral-500 py-12">
+            <motion.div
+              className="col-span-full text-center text-neutral-500 py-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
               <div className="flex flex-col items-center gap-4">
-                <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                <motion.div
+                  className={`w-8 h-8 border-2 ${isDistorted ? 'border-rose-500' : 'border-cyan-500'} border-t-transparent rounded-full`}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                />
                 <p className="font-mono text-sm">Loading chords...</p>
               </div>
-            </div>
+            </motion.div>
           )}
         </main>
 
-        {/* Footer */}
-        <footer className="mt-auto pt-12 border-t border-neutral-900 text-center">
-          <p className="text-neutral-600 text-xs font-mono">
+        {/* Footer - Animated */}
+        <motion.footer
+          className="mt-auto pt-12 border-t border-neutral-900 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <motion.p
+            className="text-neutral-600 text-xs font-mono"
+            whileHover={{ color: isDistorted ? '#f43f5e' : '#22d3ee' }}
+          >
             DESIGNED FOR METAL ARCHITECTS // V0.2.3 BETA
-          </p>
-        </footer>
+          </motion.p>
+        </motion.footer>
 
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -136,7 +136,7 @@ const App: React.FC = () => {
   const [chordsToLoad, setChordsToLoad] = React.useState(6); // Start with 6 chords
   const [totalChordsAvailable, setTotalChordsAvailable] = React.useState(0);
   const CHORDS_PER_BATCH = 6; // Initial load: 6 chords
-  const RELATED_CHORDS_COUNT = 5; // When locked, load 5 related chords
+  const RELATED_CHORDS_COUNT = 6; // When locked, load 6 related chords
   
   // Load initial batch of chords - ULTRA FAST: Show UI first, load data after
   React.useEffect(() => {

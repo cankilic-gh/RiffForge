@@ -489,13 +489,61 @@ const App: React.FC = () => {
               transition={{ duration: 0.3 }}
               className="mb-12 scroll-mt-4"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className={`h-px flex-1 ${isDistorted ? 'bg-rose-500/30' : 'bg-cyan-500/30'}`} />
-                <h3 className={`font-['Share_Tech_Mono'] text-sm uppercase tracking-widest ${isDistorted ? 'text-rose-400' : 'text-cyan-400'}`}>
-                  Related Variations
-                </h3>
-                <div className={`h-px flex-1 ${isDistorted ? 'bg-rose-500/30' : 'bg-cyan-500/30'}`} />
-              </div>
+              {/* Locked chord info + title */}
+              {(() => {
+                const lockedChord = displayedChords.find(c => c.id === lockedChordId);
+                return (
+                  <div className="flex flex-col items-center gap-3 mb-6">
+                    {/* Main title row */}
+                    <div className="flex items-center gap-4 w-full">
+                      <div className={`h-px flex-1 ${isDistorted ? 'bg-rose-500/30' : 'bg-cyan-500/30'}`} />
+                      <h3 className={`font-['Share_Tech_Mono'] text-sm uppercase tracking-widest ${isDistorted ? 'text-rose-400' : 'text-cyan-400'}`}>
+                        Related Variations
+                      </h3>
+                      <div className={`h-px flex-1 ${isDistorted ? 'bg-rose-500/30' : 'bg-cyan-500/30'}`} />
+                    </div>
+
+                    {/* Locked chord badge */}
+                    {lockedChord && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className={`flex items-center gap-3 px-4 py-2 rounded-lg border backdrop-blur-sm ${
+                          isDistorted
+                            ? 'bg-rose-500/10 border-rose-500/30'
+                            : 'bg-cyan-500/10 border-cyan-500/30'
+                        }`}
+                      >
+                        {/* Root note */}
+                        <span className={`font-['Oswald'] text-2xl font-bold ${
+                          isDistorted ? 'text-rose-400' : 'text-cyan-400'
+                        }`}>
+                          {selectedRoot}
+                        </span>
+
+                        {/* Divider */}
+                        <div className={`w-px h-6 ${isDistorted ? 'bg-rose-500/40' : 'bg-cyan-500/40'}`} />
+
+                        {/* Chord name */}
+                        <span className="font-['Oswald'] text-lg text-neutral-200 uppercase tracking-wide">
+                          {lockedChord.name}
+                        </span>
+
+                        {/* Lock indicator */}
+                        <motion.div
+                          className={`w-2 h-2 rounded-full ${isDistorted ? 'bg-rose-500' : 'bg-cyan-500'}`}
+                          animate={{
+                            boxShadow: isDistorted
+                              ? ['0 0 8px rgba(244, 63, 94, 0.8)', '0 0 16px rgba(244, 63, 94, 0.4)', '0 0 8px rgba(244, 63, 94, 0.8)']
+                              : ['0 0 8px rgba(34, 211, 238, 0.8)', '0 0 16px rgba(34, 211, 238, 0.4)', '0 0 8px rgba(34, 211, 238, 0.8)']
+                          }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                      </motion.div>
+                    )}
+                  </div>
+                );
+              })()}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedChords.map((chord, index) => (

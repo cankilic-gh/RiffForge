@@ -21,7 +21,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'dark-1-child-2', name: 'Tritone Stack', subtext: 'b5', notes: ['E2', 'A#2', 'E3', 'A#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'E' },
           { id: 'dark-1-child-3', name: 'Diminished Phrygian', subtext: 'Dim/b2', notes: ['E2', 'F2', 'G2', 'A#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'E' },
           { id: 'dark-1-child-4', name: 'Phrygian b6', subtext: 'b2/b6', notes: ['E2', 'F2', 'G#2', 'B2', 'C3'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'E' },
-          { id: 'dark-1-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' }
+          { id: 'dark-1-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' },
+          { id: 'dark-1-child-6', name: 'Phrygian 7th', subtext: 'b2/b7', notes: ['E2', 'F2', 'D3', 'E3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -37,7 +38,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'dark-2-child-2', name: 'Tritone Stack', subtext: 'b5', notes: ['E2', 'A#2', 'E3', 'A#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'E' },
           { id: 'dark-2-child-3', name: 'Diminished Phrygian', subtext: 'Dim/b2', notes: ['E2', 'F2', 'G2', 'A#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'E' },
           { id: 'dark-2-child-4', name: 'Phrygian b6', subtext: 'b2/b6', notes: ['E2', 'F2', 'G#2', 'B2', 'C3'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'E' },
-          { id: 'dark-2-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' }
+          { id: 'dark-2-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' },
+          { id: 'dark-2-child-6', name: 'Phrygian 7th', subtext: 'b2/b7', notes: ['E2', 'F2', 'D3', 'E3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -53,7 +55,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'dark-3-child-2', name: 'Phrygian Root', subtext: 'b2', notes: ['E2', 'F2', 'G#2', 'B2', 'E3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'E' },
           { id: 'dark-3-child-3', name: 'Diminished Phrygian', subtext: 'Dim/b2', notes: ['E2', 'F2', 'G2', 'A#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'E' },
           { id: 'dark-3-child-4', name: 'Phrygian b6', subtext: 'b2/b6', notes: ['E2', 'F2', 'G#2', 'B2', 'C3'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'E' },
-          { id: 'dark-3-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' }
+          { id: 'dark-3-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' },
+          { id: 'dark-3-child-6', name: 'Phrygian 7th', subtext: 'b2/b7', notes: ['E2', 'F2', 'D3', 'E3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -69,7 +72,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'dark-4-child-2', name: 'Phrygian Root', subtext: 'b2', notes: ['E2', 'F2', 'G#2', 'B2', 'E3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'E' },
           { id: 'dark-4-child-3', name: 'Tritone Stack', subtext: 'b5', notes: ['E2', 'A#2', 'E3', 'A#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'E' },
           { id: 'dark-4-child-4', name: 'Phrygian b6', subtext: 'b2/b6', notes: ['E2', 'F2', 'G#2', 'B2', 'C3'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'E' },
-          { id: 'dark-4-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' }
+          { id: 'dark-4-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' },
+          { id: 'dark-4-child-6', name: 'Phrygian 7th', subtext: 'b2/b7', notes: ['E2', 'F2', 'D3', 'E3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -85,7 +89,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'dark-5-child-2', name: 'Phrygian Root', subtext: 'b2', notes: ['E2', 'F2', 'G#2', 'B2', 'E3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'E' },
           { id: 'dark-5-child-3', name: 'Tritone Stack', subtext: 'b5', notes: ['E2', 'A#2', 'E3', 'A#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'E' },
           { id: 'dark-5-child-4', name: 'Diminished Phrygian', subtext: 'Dim/b2', notes: ['E2', 'F2', 'G2', 'A#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'E' },
-          { id: 'dark-5-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' }
+          { id: 'dark-5-child-5', name: 'Tritone Resolve', subtext: 'b5/m2', notes: ['E2', 'F2', 'A#2', 'E3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'E' },
+          { id: 'dark-5-child-6', name: 'Phrygian 7th', subtext: 'b2/b7', notes: ['E2', 'F2', 'D3', 'E3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -101,7 +106,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'dark-6-child-2', name: 'Phrygian Root', subtext: 'b2', notes: ['E2', 'F2', 'G#2', 'B2', 'E3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'E' },
           { id: 'dark-6-child-3', name: 'Tritone Stack', subtext: 'b5', notes: ['E2', 'A#2', 'E3', 'A#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'E' },
           { id: 'dark-6-child-4', name: 'Diminished Phrygian', subtext: 'Dim/b2', notes: ['E2', 'F2', 'G2', 'A#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'E' },
-          { id: 'dark-6-child-5', name: 'Phrygian b6', subtext: 'b2/b6', notes: ['E2', 'F2', 'G#2', 'B2', 'C3'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'E' }
+          { id: 'dark-6-child-5', name: 'Phrygian b6', subtext: 'b2/b6', notes: ['E2', 'F2', 'G#2', 'B2', 'C3'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'E' },
+          { id: 'dark-6-child-6', name: 'Phrygian 7th', subtext: 'b2/b7', notes: ['E2', 'F2', 'D3', 'E3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'E' }
         ]
       }
     ],
@@ -121,7 +127,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'melodic-1-child-2', name: 'Am Add9 Flow', subtext: 'Am(iv)', notes: ['A2', 'E3', 'A3', 'B3', 'E4'], description: 'Subdominant extension.', fretboard: 'x 0 2 2 0 0', baseRoot: 'A' },
           { id: 'melodic-1-child-3', name: 'G Major Lift', subtext: 'G(V)', notes: ['G2', 'B2', 'D3', 'G3'], description: 'Dominant resolution.', fretboard: '3 2 0 0 3 x', baseRoot: 'G' },
           { id: 'melodic-1-child-4', name: 'Bm Suspension', subtext: 'Bm(iii)', notes: ['B2', 'D3', 'F#3', 'B3'], description: 'Mediant tension.', fretboard: 'x 2 4 4 2 x', baseRoot: 'B' },
-          { id: 'melodic-1-child-5', name: 'D Minor Resolve', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Supertonic movement.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' }
+          { id: 'melodic-1-child-5', name: 'D Minor Resolve', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Supertonic movement.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' },
+          { id: 'melodic-1-child-6', name: 'F# Diminished', subtext: 'F#dim(vii)', notes: ['F#2', 'A2', 'C3', 'F#3'], description: 'Leading tone tension.', fretboard: '2 0 2 1 x x', baseRoot: 'F#' }
         ]
       },
       {
@@ -137,7 +144,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'melodic-2-child-2', name: 'Am Add9 Flow', subtext: 'Am(iv)', notes: ['A2', 'E3', 'A3', 'B3', 'E4'], description: 'Subdominant flow.', fretboard: 'x 0 2 2 0 0', baseRoot: 'A' },
           { id: 'melodic-2-child-3', name: 'F Major Bright', subtext: 'F(IV)', notes: ['F2', 'A2', 'C3', 'F3'], description: 'Bright subdominant.', fretboard: '1 3 3 2 1 x', baseRoot: 'F' },
           { id: 'melodic-2-child-4', name: 'G Major Lift', subtext: 'G(V)', notes: ['G2', 'B2', 'D3', 'G3'], description: 'Dominant movement.', fretboard: '3 2 0 0 3 x', baseRoot: 'G' },
-          { id: 'melodic-2-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' }
+          { id: 'melodic-2-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' },
+          { id: 'melodic-2-child-6', name: 'F# Diminished', subtext: 'F#dim(vii)', notes: ['F#2', 'A2', 'C3', 'F#3'], description: 'Leading tone tension.', fretboard: '2 0 2 1 x x', baseRoot: 'F#' }
         ]
       },
       {
@@ -153,7 +161,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'melodic-3-child-2', name: 'C Maj7 Bright', subtext: 'C(VI)', notes: ['C3', 'E3', 'G3', 'B3'], description: 'Relative major.', fretboard: 'x 3 2 0 1 0', baseRoot: 'C' },
           { id: 'melodic-3-child-3', name: 'F Major Transition', subtext: 'F(IV)', notes: ['F2', 'A2', 'C3', 'F3'], description: 'Smooth movement.', fretboard: '1 3 3 2 1 x', baseRoot: 'F' },
           { id: 'melodic-3-child-4', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Tension builder.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' },
-          { id: 'melodic-3-child-5', name: 'G Major Resolve', subtext: 'G(V)', notes: ['G2', 'B2', 'D3', 'G3'], description: 'Dominant resolution.', fretboard: '3 2 0 0 3 x', baseRoot: 'G' }
+          { id: 'melodic-3-child-5', name: 'G Major Resolve', subtext: 'G(V)', notes: ['G2', 'B2', 'D3', 'G3'], description: 'Dominant resolution.', fretboard: '3 2 0 0 3 x', baseRoot: 'G' },
+          { id: 'melodic-3-child-6', name: 'F# Diminished', subtext: 'F#dim(vii)', notes: ['F#2', 'A2', 'C3', 'F#3'], description: 'Leading tone tension.', fretboard: '2 0 2 1 x x', baseRoot: 'F#' }
         ]
       },
       {
@@ -169,7 +178,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'melodic-4-child-2', name: 'Am Add9 Flow', subtext: 'Am(iv)', notes: ['A2', 'E3', 'A3', 'B3', 'E4'], description: 'Flowing subdominant.', fretboard: 'x 0 2 2 0 0', baseRoot: 'A' },
           { id: 'melodic-4-child-3', name: 'G Major Lift', subtext: 'G(V)', notes: ['G2', 'B2', 'D3', 'G3'], description: 'Dominant movement.', fretboard: '3 2 0 0 3 x', baseRoot: 'G' },
           { id: 'melodic-4-child-4', name: 'Bm Mediant', subtext: 'Bm(iii)', notes: ['B2', 'D3', 'F#3', 'B3'], description: 'Mediant tension.', fretboard: 'x 2 4 4 2 x', baseRoot: 'B' },
-          { id: 'melodic-4-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' }
+          { id: 'melodic-4-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' },
+          { id: 'melodic-4-child-6', name: 'F# Diminished', subtext: 'F#dim(vii)', notes: ['F#2', 'A2', 'C3', 'F#3'], description: 'Leading tone tension.', fretboard: '2 0 2 1 x x', baseRoot: 'F#' }
         ]
       },
       {
@@ -185,7 +195,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'melodic-5-child-2', name: 'Am Add9 Flow', subtext: 'Am(iv)', notes: ['A2', 'E3', 'A3', 'B3', 'E4'], description: 'Subdominant flow.', fretboard: 'x 0 2 2 0 0', baseRoot: 'A' },
           { id: 'melodic-5-child-3', name: 'F Major Bright', subtext: 'F(IV)', notes: ['F2', 'A2', 'C3', 'F3'], description: 'Bright movement.', fretboard: '1 3 3 2 1 x', baseRoot: 'F' },
           { id: 'melodic-5-child-4', name: 'G Major Resolve', subtext: 'G(V)', notes: ['G2', 'B2', 'D3', 'G3'], description: 'Dominant resolution.', fretboard: '3 2 0 0 3 x', baseRoot: 'G' },
-          { id: 'melodic-5-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' }
+          { id: 'melodic-5-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' },
+          { id: 'melodic-5-child-6', name: 'F# Diminished', subtext: 'F#dim(vii)', notes: ['F#2', 'A2', 'C3', 'F#3'], description: 'Leading tone tension.', fretboard: '2 0 2 1 x x', baseRoot: 'F#' }
         ]
       },
       {
@@ -201,7 +212,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'melodic-6-child-2', name: 'Am Add9 Flow', subtext: 'Am(iv)', notes: ['A2', 'E3', 'A3', 'B3', 'E4'], description: 'Flowing subdominant.', fretboard: 'x 0 2 2 0 0', baseRoot: 'A' },
           { id: 'melodic-6-child-3', name: 'G Major Lift', subtext: 'G(V)', notes: ['G2', 'B2', 'D3', 'G3'], description: 'Dominant movement.', fretboard: '3 2 0 0 3 x', baseRoot: 'G' },
           { id: 'melodic-6-child-4', name: 'Bm Mediant', subtext: 'Bm(iii)', notes: ['B2', 'D3', 'F#3', 'B3'], description: 'Mediant tension.', fretboard: 'x 2 4 4 2 x', baseRoot: 'B' },
-          { id: 'melodic-6-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' }
+          { id: 'melodic-6-child-5', name: 'Dm Suspension', subtext: 'Dm(ii)', notes: ['D3', 'F3', 'A3', 'D4'], description: 'Smooth transition.', fretboard: 'x x 0 2 3 1', baseRoot: 'D' },
+          { id: 'melodic-6-child-6', name: 'F# Diminished', subtext: 'F#dim(vii)', notes: ['F#2', 'A2', 'C3', 'F#3'], description: 'Leading tone tension.', fretboard: '2 0 2 1 x x', baseRoot: 'F#' }
         ]
       }
     ],
@@ -221,7 +233,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'energetic-1-child-2', name: 'E Sus2', subtext: 'Sus2', notes: ['E2', 'F#2', 'B2', 'E3'], description: 'Sus2 variation.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
           { id: 'energetic-1-child-3', name: 'E Octave', subtext: 'Octave', notes: ['E2', 'E3', 'B3'], description: 'Octave variation.', fretboard: '0 2 0 x x x', baseRoot: 'E' },
           { id: 'energetic-1-child-4', name: 'E Low Stack', subtext: 'Low 5th', notes: ['E1', 'E2', 'B2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'E' },
-          { id: 'energetic-1-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' }
+          { id: 'energetic-1-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
+          { id: 'energetic-1-child-6', name: 'E Add4', subtext: '5th/4th', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Djent-style add4.', fretboard: '0 0 2 0 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -237,7 +250,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'energetic-2-child-2', name: 'E Sus2', subtext: 'Sus2', notes: ['E2', 'F#2', 'B2', 'E3'], description: 'Sus2 variation.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
           { id: 'energetic-2-child-3', name: 'E Octave', subtext: 'Octave', notes: ['E2', 'E3', 'B3'], description: 'Octave variation.', fretboard: '0 2 0 x x x', baseRoot: 'E' },
           { id: 'energetic-2-child-4', name: 'E Low Stack', subtext: 'Low 5th', notes: ['E1', 'E2', 'B2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'E' },
-          { id: 'energetic-2-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' }
+          { id: 'energetic-2-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
+          { id: 'energetic-2-child-6', name: 'E Add4', subtext: '5th/4th', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Djent-style add4.', fretboard: '0 0 2 0 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -253,7 +267,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'energetic-3-child-2', name: 'E Sus4', subtext: 'Sus4', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'E' },
           { id: 'energetic-3-child-3', name: 'E Octave', subtext: 'Octave', notes: ['E2', 'E3', 'B3'], description: 'Octave variation.', fretboard: '0 2 0 x x x', baseRoot: 'E' },
           { id: 'energetic-3-child-4', name: 'E Low Stack', subtext: 'Low 5th', notes: ['E1', 'E2', 'B2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'E' },
-          { id: 'energetic-3-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' }
+          { id: 'energetic-3-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
+          { id: 'energetic-3-child-6', name: 'E Add4', subtext: '5th/4th', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Djent-style add4.', fretboard: '0 0 2 0 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -269,7 +284,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'energetic-4-child-2', name: 'E Sus4', subtext: 'Sus4', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'E' },
           { id: 'energetic-4-child-3', name: 'E Sus2', subtext: 'Sus2', notes: ['E2', 'F#2', 'B2', 'E3'], description: 'Sus2 variation.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
           { id: 'energetic-4-child-4', name: 'E Low Stack', subtext: 'Low 5th', notes: ['E1', 'E2', 'B2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'E' },
-          { id: 'energetic-4-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' }
+          { id: 'energetic-4-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
+          { id: 'energetic-4-child-6', name: 'E Add4', subtext: '5th/4th', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Djent-style add4.', fretboard: '0 0 2 0 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -285,7 +301,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'energetic-5-child-2', name: 'E Sus4', subtext: 'Sus4', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'E' },
           { id: 'energetic-5-child-3', name: 'E Sus2', subtext: 'Sus2', notes: ['E2', 'F#2', 'B2', 'E3'], description: 'Sus2 variation.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
           { id: 'energetic-5-child-4', name: 'E Octave', subtext: 'Octave', notes: ['E2', 'E3', 'B3'], description: 'Octave variation.', fretboard: '0 2 0 x x x', baseRoot: 'E' },
-          { id: 'energetic-5-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' }
+          { id: 'energetic-5-child-5', name: 'E Double 5th', subtext: '5th Stack', notes: ['E2', 'B2', 'E3', 'B3'], description: 'Double stop power.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
+          { id: 'energetic-5-child-6', name: 'E Add4', subtext: '5th/4th', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Djent-style add4.', fretboard: '0 0 2 0 x x', baseRoot: 'E' }
         ]
       },
       {
@@ -301,7 +318,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'energetic-6-child-2', name: 'E Sus4', subtext: 'Sus4', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'E' },
           { id: 'energetic-6-child-3', name: 'E Sus2', subtext: 'Sus2', notes: ['E2', 'F#2', 'B2', 'E3'], description: 'Sus2 variation.', fretboard: '0 2 2 0 x x', baseRoot: 'E' },
           { id: 'energetic-6-child-4', name: 'E Octave', subtext: 'Octave', notes: ['E2', 'E3', 'B3'], description: 'Octave variation.', fretboard: '0 2 0 x x x', baseRoot: 'E' },
-          { id: 'energetic-6-child-5', name: 'E Low Stack', subtext: 'Low 5th', notes: ['E1', 'E2', 'B2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'E' }
+          { id: 'energetic-6-child-5', name: 'E Low Stack', subtext: 'Low 5th', notes: ['E1', 'E2', 'B2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'E' },
+          { id: 'energetic-6-child-6', name: 'E Add4', subtext: '5th/4th', notes: ['E2', 'A2', 'B2', 'E3'], description: 'Djent-style add4.', fretboard: '0 0 2 0 x x', baseRoot: 'E' }
         ]
       }
     ]
@@ -323,7 +341,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-dark-1-child-2', name: 'Drop Tritone', subtext: 'b5', notes: ['D2', 'G#2', 'D3', 'G#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-1-child-3', name: 'Drop Dim Phrygian', subtext: 'Dim/b2', notes: ['D2', 'D#2', 'F2', 'G#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-1-child-4', name: 'Drop Phrygian b6', subtext: 'b2/b6', notes: ['D2', 'D#2', 'F#2', 'A2', 'A#2'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'D' },
-          { id: 'drop-dark-1-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' }
+          { id: 'drop-dark-1-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' },
+          { id: 'drop-dark-1-child-6', name: 'Drop Phrygian 7th', subtext: 'b2/b7', notes: ['D2', 'D#2', 'C3', 'D3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -339,7 +358,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-dark-2-child-2', name: 'Drop Tritone', subtext: 'b5', notes: ['D2', 'G#2', 'D3', 'G#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-2-child-3', name: 'Drop Dim Phrygian', subtext: 'Dim/b2', notes: ['D2', 'D#2', 'F2', 'G#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-2-child-4', name: 'Drop Phrygian b6', subtext: 'b2/b6', notes: ['D2', 'D#2', 'F#2', 'A2', 'A#2'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'D' },
-          { id: 'drop-dark-2-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' }
+          { id: 'drop-dark-2-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' },
+          { id: 'drop-dark-2-child-6', name: 'Drop Phrygian 7th', subtext: 'b2/b7', notes: ['D2', 'D#2', 'C3', 'D3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -355,7 +375,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-dark-3-child-2', name: 'Drop Phrygian', subtext: 'b2', notes: ['D2', 'D#2', 'F#2', 'A2', 'D3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'D' },
           { id: 'drop-dark-3-child-3', name: 'Drop Dim Phrygian', subtext: 'Dim/b2', notes: ['D2', 'D#2', 'F2', 'G#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-3-child-4', name: 'Drop Phrygian b6', subtext: 'b2/b6', notes: ['D2', 'D#2', 'F#2', 'A2', 'A#2'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'D' },
-          { id: 'drop-dark-3-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' }
+          { id: 'drop-dark-3-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' },
+          { id: 'drop-dark-3-child-6', name: 'Drop Phrygian 7th', subtext: 'b2/b7', notes: ['D2', 'D#2', 'C3', 'D3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -371,7 +392,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-dark-4-child-2', name: 'Drop Phrygian', subtext: 'b2', notes: ['D2', 'D#2', 'F#2', 'A2', 'D3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'D' },
           { id: 'drop-dark-4-child-3', name: 'Drop Tritone', subtext: 'b5', notes: ['D2', 'G#2', 'D3', 'G#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-4-child-4', name: 'Drop Phrygian b6', subtext: 'b2/b6', notes: ['D2', 'D#2', 'F#2', 'A2', 'A#2'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'D' },
-          { id: 'drop-dark-4-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' }
+          { id: 'drop-dark-4-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' },
+          { id: 'drop-dark-4-child-6', name: 'Drop Phrygian 7th', subtext: 'b2/b7', notes: ['D2', 'D#2', 'C3', 'D3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -387,7 +409,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-dark-5-child-2', name: 'Drop Phrygian', subtext: 'b2', notes: ['D2', 'D#2', 'F#2', 'A2', 'D3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'D' },
           { id: 'drop-dark-5-child-3', name: 'Drop Tritone', subtext: 'b5', notes: ['D2', 'G#2', 'D3', 'G#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-5-child-4', name: 'Drop Dim Phrygian', subtext: 'Dim/b2', notes: ['D2', 'D#2', 'F2', 'G#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'D' },
-          { id: 'drop-dark-5-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' }
+          { id: 'drop-dark-5-child-5', name: 'Drop Tritone Resolve', subtext: 'b5/m2', notes: ['D2', 'D#2', 'G#2', 'D3'], description: 'Unsettling resolve.', fretboard: '0 1 6 0 x x', baseRoot: 'D' },
+          { id: 'drop-dark-5-child-6', name: 'Drop Phrygian 7th', subtext: 'b2/b7', notes: ['D2', 'D#2', 'C3', 'D3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -403,7 +426,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-dark-6-child-2', name: 'Drop Phrygian', subtext: 'b2', notes: ['D2', 'D#2', 'F#2', 'A2', 'D3'], description: 'Phrygian foundation.', fretboard: '0 1 4 2 0 x', baseRoot: 'D' },
           { id: 'drop-dark-6-child-3', name: 'Drop Tritone', subtext: 'b5', notes: ['D2', 'G#2', 'D3', 'G#3'], description: 'Devil\'s interval.', fretboard: '0 6 0 6 x x', baseRoot: 'D' },
           { id: 'drop-dark-6-child-4', name: 'Drop Dim Phrygian', subtext: 'Dim/b2', notes: ['D2', 'D#2', 'F2', 'G#2'], description: 'Maximum tension.', fretboard: '0 1 3 6 x x', baseRoot: 'D' },
-          { id: 'drop-dark-6-child-5', name: 'Drop Phrygian b6', subtext: 'b2/b6', notes: ['D2', 'D#2', 'F#2', 'A2', 'A#2'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'D' }
+          { id: 'drop-dark-6-child-5', name: 'Drop Phrygian b6', subtext: 'b2/b6', notes: ['D2', 'D#2', 'F#2', 'A2', 'A#2'], description: 'Exotic darkness.', fretboard: '0 1 4 2 3 x', baseRoot: 'D' },
+          { id: 'drop-dark-6-child-6', name: 'Drop Phrygian 7th', subtext: 'b2/b7', notes: ['D2', 'D#2', 'C3', 'D3'], description: 'Dark dominant.', fretboard: '0 1 0 2 x x', baseRoot: 'D' }
         ]
       }
     ],
@@ -423,7 +447,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-melodic-1-child-2', name: 'Drop Gm Add9', subtext: 'Gm(iv)', notes: ['G2', 'D3', 'G3', 'A3', 'D4'], description: 'Subdominant extension.', fretboard: '3 0 0 2 0 x', baseRoot: 'G' },
           { id: 'drop-melodic-1-child-3', name: 'Drop Am Lift', subtext: 'Am(v)', notes: ['A2', 'C3', 'E3', 'A3'], description: 'Dominant resolution.', fretboard: 'x 0 2 2 0 x', baseRoot: 'A' },
           { id: 'drop-melodic-1-child-4', name: 'Drop Fm Mediant', subtext: 'Fm(iii)', notes: ['F2', 'A#2', 'C3', 'F3'], description: 'Mediant tension.', fretboard: '1 3 3 1 1 x', baseRoot: 'F' },
-          { id: 'drop-melodic-1-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Supertonic movement.', fretboard: '0 3 6 0 x x', baseRoot: 'E' }
+          { id: 'drop-melodic-1-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Supertonic movement.', fretboard: '0 3 6 0 x x', baseRoot: 'E' },
+          { id: 'drop-melodic-1-child-6', name: 'Drop C Major', subtext: 'C(VII)', notes: ['C2', 'E2', 'G2', 'C3'], description: 'Subtonic resolution.', fretboard: 'x 3 5 5 5 x', baseRoot: 'C' }
         ]
       },
       {
@@ -439,7 +464,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-melodic-2-child-2', name: 'Drop Gm Add9', subtext: 'Gm(iv)', notes: ['G2', 'D3', 'G3', 'A3', 'D4'], description: 'Subdominant flow.', fretboard: '3 0 0 2 0 x', baseRoot: 'G' },
           { id: 'drop-melodic-2-child-3', name: 'Drop F Major Bright', subtext: 'F(IV)', notes: ['F2', 'A2', 'C3', 'F3'], description: 'Bright subdominant.', fretboard: '1 3 3 2 1 x', baseRoot: 'F' },
           { id: 'drop-melodic-2-child-4', name: 'Drop Am Lift', subtext: 'Am(v)', notes: ['A2', 'C3', 'E3', 'A3'], description: 'Dominant movement.', fretboard: 'x 0 2 2 0 x', baseRoot: 'A' },
-          { id: 'drop-melodic-2-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' }
+          { id: 'drop-melodic-2-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' },
+          { id: 'drop-melodic-2-child-6', name: 'Drop C Major', subtext: 'C(VII)', notes: ['C2', 'E2', 'G2', 'C3'], description: 'Subtonic resolution.', fretboard: 'x 3 5 5 5 x', baseRoot: 'C' }
         ]
       },
       {
@@ -455,7 +481,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-melodic-3-child-2', name: 'Drop Bb Maj7', subtext: 'Bb(VI)', notes: ['Bb2', 'D3', 'F3', 'A3'], description: 'Relative major.', fretboard: 'x 1 3 2 1 x', baseRoot: 'A#' },
           { id: 'drop-melodic-3-child-3', name: 'Drop F Major Transition', subtext: 'F(IV)', notes: ['F2', 'A2', 'C3', 'F3'], description: 'Smooth movement.', fretboard: '1 3 3 2 1 x', baseRoot: 'F' },
           { id: 'drop-melodic-3-child-4', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Tension builder.', fretboard: '0 3 6 0 x x', baseRoot: 'E' },
-          { id: 'drop-melodic-3-child-5', name: 'Drop Am Resolve', subtext: 'Am(v)', notes: ['A2', 'C3', 'E3', 'A3'], description: 'Dominant resolution.', fretboard: 'x 0 2 2 0 x', baseRoot: 'A' }
+          { id: 'drop-melodic-3-child-5', name: 'Drop Am Resolve', subtext: 'Am(v)', notes: ['A2', 'C3', 'E3', 'A3'], description: 'Dominant resolution.', fretboard: 'x 0 2 2 0 x', baseRoot: 'A' },
+          { id: 'drop-melodic-3-child-6', name: 'Drop C Major', subtext: 'C(VII)', notes: ['C2', 'E2', 'G2', 'C3'], description: 'Subtonic resolution.', fretboard: 'x 3 5 5 5 x', baseRoot: 'C' }
         ]
       },
       {
@@ -471,7 +498,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-melodic-4-child-2', name: 'Drop Gm Add9 Flow', subtext: 'Gm(iv)', notes: ['G2', 'D3', 'G3', 'A3', 'D4'], description: 'Flowing subdominant.', fretboard: '3 0 0 2 0 x', baseRoot: 'G' },
           { id: 'drop-melodic-4-child-3', name: 'Drop Am Lift', subtext: 'Am(v)', notes: ['A2', 'C3', 'E3', 'A3'], description: 'Dominant movement.', fretboard: 'x 0 2 2 0 x', baseRoot: 'A' },
           { id: 'drop-melodic-4-child-4', name: 'Drop Fm Mediant', subtext: 'Fm(iii)', notes: ['F2', 'A#2', 'C3', 'F3'], description: 'Mediant tension.', fretboard: '1 3 3 1 1 x', baseRoot: 'F' },
-          { id: 'drop-melodic-4-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' }
+          { id: 'drop-melodic-4-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' },
+          { id: 'drop-melodic-4-child-6', name: 'Drop C Major', subtext: 'C(VII)', notes: ['C2', 'E2', 'G2', 'C3'], description: 'Subtonic resolution.', fretboard: 'x 3 5 5 5 x', baseRoot: 'C' }
         ]
       },
       {
@@ -487,7 +515,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-melodic-5-child-2', name: 'Drop Gm Add9 Flow', subtext: 'Gm(iv)', notes: ['G2', 'D3', 'G3', 'A3', 'D4'], description: 'Subdominant flow.', fretboard: '3 0 0 2 0 x', baseRoot: 'G' },
           { id: 'drop-melodic-5-child-3', name: 'Drop F Major Bright', subtext: 'F(IV)', notes: ['F2', 'A2', 'C3', 'F3'], description: 'Bright movement.', fretboard: '1 3 3 2 1 x', baseRoot: 'F' },
           { id: 'drop-melodic-5-child-4', name: 'Drop Am Resolve', subtext: 'Am(v)', notes: ['A2', 'C3', 'E3', 'A3'], description: 'Dominant resolution.', fretboard: 'x 0 2 2 0 x', baseRoot: 'A' },
-          { id: 'drop-melodic-5-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' }
+          { id: 'drop-melodic-5-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' },
+          { id: 'drop-melodic-5-child-6', name: 'Drop C Major', subtext: 'C(VII)', notes: ['C2', 'E2', 'G2', 'C3'], description: 'Subtonic resolution.', fretboard: 'x 3 5 5 5 x', baseRoot: 'C' }
         ]
       },
       {
@@ -503,7 +532,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-melodic-6-child-2', name: 'Drop Gm Add9 Flow', subtext: 'Gm(iv)', notes: ['G2', 'D3', 'G3', 'A3', 'D4'], description: 'Flowing subdominant.', fretboard: '3 0 0 2 0 x', baseRoot: 'G' },
           { id: 'drop-melodic-6-child-3', name: 'Drop Am Lift', subtext: 'Am(v)', notes: ['A2', 'C3', 'E3', 'A3'], description: 'Dominant movement.', fretboard: 'x 0 2 2 0 x', baseRoot: 'A' },
           { id: 'drop-melodic-6-child-4', name: 'Drop Fm Mediant', subtext: 'Fm(iii)', notes: ['F2', 'A#2', 'C3', 'F3'], description: 'Mediant tension.', fretboard: '1 3 3 1 1 x', baseRoot: 'F' },
-          { id: 'drop-melodic-6-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' }
+          { id: 'drop-melodic-6-child-5', name: 'Drop Edim Suspension', subtext: 'Edim(ii)', notes: ['E2', 'G2', 'A#2', 'E3'], description: 'Smooth transition.', fretboard: '0 3 6 0 x x', baseRoot: 'E' },
+          { id: 'drop-melodic-6-child-6', name: 'Drop C Major', subtext: 'C(VII)', notes: ['C2', 'E2', 'G2', 'C3'], description: 'Subtonic resolution.', fretboard: 'x 3 5 5 5 x', baseRoot: 'C' }
         ]
       }
     ],
@@ -523,7 +553,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-energetic-1-child-2', name: 'Drop D Sus2', subtext: 'Sus2', notes: ['D2', 'E2', 'A2', 'D3'], description: 'Sus2 variation.', fretboard: '0 2 0 0 x x', baseRoot: 'D' },
           { id: 'drop-energetic-1-child-3', name: 'Drop D Octave', subtext: 'Octave', notes: ['D2', 'D3', 'A3'], description: 'Octave variation.', fretboard: '0 0 0 x x x', baseRoot: 'D' },
           { id: 'drop-energetic-1-child-4', name: 'Drop D Low Stack', subtext: 'Low 5th', notes: ['D1', 'D2', 'A2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'D' },
-          { id: 'drop-energetic-1-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' }
+          { id: 'drop-energetic-1-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' },
+          { id: 'drop-energetic-1-child-6', name: 'Drop D Add4', subtext: '5th/4th', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Djent-style add4.', fretboard: '0 0 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -539,7 +570,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-energetic-2-child-2', name: 'Drop D Sus2', subtext: 'Sus2', notes: ['D2', 'E2', 'A2', 'D3'], description: 'Sus2 variation.', fretboard: '0 2 0 0 x x', baseRoot: 'D' },
           { id: 'drop-energetic-2-child-3', name: 'Drop D Octave', subtext: 'Octave', notes: ['D2', 'D3', 'A3'], description: 'Octave variation.', fretboard: '0 0 0 x x x', baseRoot: 'D' },
           { id: 'drop-energetic-2-child-4', name: 'Drop D Low Stack', subtext: 'Low 5th', notes: ['D1', 'D2', 'A2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'D' },
-          { id: 'drop-energetic-2-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' }
+          { id: 'drop-energetic-2-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' },
+          { id: 'drop-energetic-2-child-6', name: 'Drop D Add4', subtext: '5th/4th', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Djent-style add4.', fretboard: '0 0 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -555,7 +587,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-energetic-3-child-2', name: 'Drop D Sus4', subtext: 'Sus4', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'D' },
           { id: 'drop-energetic-3-child-3', name: 'Drop D Octave', subtext: 'Octave', notes: ['D2', 'D3', 'A3'], description: 'Octave variation.', fretboard: '0 0 0 x x x', baseRoot: 'D' },
           { id: 'drop-energetic-3-child-4', name: 'Drop D Low Stack', subtext: 'Low 5th', notes: ['D1', 'D2', 'A2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'D' },
-          { id: 'drop-energetic-3-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' }
+          { id: 'drop-energetic-3-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' },
+          { id: 'drop-energetic-3-child-6', name: 'Drop D Add4', subtext: '5th/4th', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Djent-style add4.', fretboard: '0 0 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -571,7 +604,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-energetic-4-child-2', name: 'Drop D Sus4', subtext: 'Sus4', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'D' },
           { id: 'drop-energetic-4-child-3', name: 'Drop D Sus2', subtext: 'Sus2', notes: ['D2', 'E2', 'A2', 'D3'], description: 'Sus2 variation.', fretboard: '0 2 0 0 x x', baseRoot: 'D' },
           { id: 'drop-energetic-4-child-4', name: 'Drop D Low Stack', subtext: 'Low 5th', notes: ['D1', 'D2', 'A2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'D' },
-          { id: 'drop-energetic-4-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' }
+          { id: 'drop-energetic-4-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' },
+          { id: 'drop-energetic-4-child-6', name: 'Drop D Add4', subtext: '5th/4th', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Djent-style add4.', fretboard: '0 0 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -587,7 +621,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-energetic-5-child-2', name: 'Drop D Sus4', subtext: 'Sus4', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'D' },
           { id: 'drop-energetic-5-child-3', name: 'Drop D Sus2', subtext: 'Sus2', notes: ['D2', 'E2', 'A2', 'D3'], description: 'Sus2 variation.', fretboard: '0 2 0 0 x x', baseRoot: 'D' },
           { id: 'drop-energetic-5-child-4', name: 'Drop D Octave', subtext: 'Octave', notes: ['D2', 'D3', 'A3'], description: 'Octave variation.', fretboard: '0 0 0 x x x', baseRoot: 'D' },
-          { id: 'drop-energetic-5-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' }
+          { id: 'drop-energetic-5-child-5', name: 'Drop D Double 5th', subtext: '5th Stack', notes: ['D2', 'A2', 'D3', 'A3'], description: 'Double stop power.', fretboard: '0 0 2 0 x x', baseRoot: 'D' },
+          { id: 'drop-energetic-5-child-6', name: 'Drop D Add4', subtext: '5th/4th', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Djent-style add4.', fretboard: '0 0 0 2 x x', baseRoot: 'D' }
         ]
       },
       {
@@ -603,7 +638,8 @@ export const CHORD_LIBRARY: Record<TuningMode, Record<VibeMode, Chord[]>> = {
           { id: 'drop-energetic-6-child-2', name: 'Drop D Sus4', subtext: 'Sus4', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Sus4 variation.', fretboard: '0 0 2 2 x x', baseRoot: 'D' },
           { id: 'drop-energetic-6-child-3', name: 'Drop D Sus2', subtext: 'Sus2', notes: ['D2', 'E2', 'A2', 'D3'], description: 'Sus2 variation.', fretboard: '0 2 0 0 x x', baseRoot: 'D' },
           { id: 'drop-energetic-6-child-4', name: 'Drop D Octave', subtext: 'Octave', notes: ['D2', 'D3', 'A3'], description: 'Octave variation.', fretboard: '0 0 0 x x x', baseRoot: 'D' },
-          { id: 'drop-energetic-6-child-5', name: 'Drop D Low Stack', subtext: 'Low 5th', notes: ['D1', 'D2', 'A2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'D' }
+          { id: 'drop-energetic-6-child-5', name: 'Drop D Low Stack', subtext: 'Low 5th', notes: ['D1', 'D2', 'A2'], description: 'Ultra low-end.', fretboard: '0 0 2 x x x', baseRoot: 'D' },
+          { id: 'drop-energetic-6-child-6', name: 'Drop D Add4', subtext: '5th/4th', notes: ['D2', 'G2', 'A2', 'D3'], description: 'Djent-style add4.', fretboard: '0 0 0 2 x x', baseRoot: 'D' }
         ]
       }
     ]

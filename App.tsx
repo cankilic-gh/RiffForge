@@ -32,6 +32,7 @@ const App: React.FC = () => {
   const [lastDisplayedParentId, setLastDisplayedParentId] = useState<string | null>(null);
   const lastDisplayedChordsRef = React.useRef<Chord[] | null>(null);
   const [relatedChords, setRelatedChords] = useState<Chord[]>([]); // Related chords shown below main grid
+  const relatedSectionRef = React.useRef<HTMLElement>(null);
 
   // Reset lock and last displayed parent when tuning or vibe changes
   React.useEffect(() => {
@@ -104,6 +105,14 @@ const App: React.FC = () => {
           .slice(0, RELATED_CHORDS_COUNT)
           .map((relatedChord: Chord) => transposeChord(relatedChord, selectedRoot, tuningMode));
         setRelatedChords(transposedRelated);
+
+        // Smooth scroll to related section after a short delay
+        setTimeout(() => {
+          relatedSectionRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 350);
       } else {
         setRelatedChords([]);
       }
@@ -473,11 +482,12 @@ const App: React.FC = () => {
         <AnimatePresence>
           {relatedChords.length > 0 && lockedChordId && (
             <motion.section
+              ref={relatedSectionRef}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="mb-12"
+              className="mb-12 scroll-mt-4"
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className={`h-px flex-1 ${isDistorted ? 'bg-rose-500/30' : 'bg-cyan-500/30'}`} />

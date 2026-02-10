@@ -7,6 +7,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tone.js](https://img.shields.io/badge/Tone.js-15.1-FF6B6B?style=for-the-badge)](https://tonejs.github.io/)
 
+🌐 **Live Demo:** [riffforge.thegridbase.com](https://riffforge.thegridbase.com)
+
 ---
 
 ## ✨ Features
@@ -41,7 +43,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/RiffForge.git
+   git clone https://github.com/cankilic-gh/RiffForge.git
    cd RiffForge
    ```
 
@@ -225,7 +227,7 @@ This project is private and proprietary.
 **Can Kilic**
 
 - Portfolio: [cankilic.com](https://cankilic.com)
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@cankilic-gh](https://github.com/cankilic-gh)
 
 ---
 

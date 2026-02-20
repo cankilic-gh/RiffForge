@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { audioEngine } from './services/audioEngine';
 import { DistortionSwitch } from './components/DistortionSwitch';
@@ -6,95 +6,88 @@ import { ChordCard } from './components/ChordCard';
 import { RootSelector } from './components/RootSelector';
 import { TuningSelector } from './components/TuningSelector';
 import { VibeSelector } from './components/VibeSelector';
-// Lazy load CHORD_LIBRARY to prevent blocking initial render
-let CHORD_LIBRARY: any = null;
-const getChordLibrary = async () => {
-  if (!CHORD_LIBRARY) {
-    const module = await import('./constants');
-    CHORD_LIBRARY = module.CHORD_LIBRARY;
-  }
-  return CHORD_LIBRARY;
-};
-
+import { useChordStore } from './stores/chordStore';
 import { Chord, TuningMode, VibeMode } from './types';
 import { transposeChord } from './utils/musicTheory';
+import { getChords, CHORD_LIBRARY } from './constants';
+
+const CHORDS_PER_BATCH = 6;
+const RELATED_CHORDS_COUNT = 6;
 
 const App: React.FC = () => {
-  console.log('🎨 App component rendering...');
-  
-  const [isDistorted, setIsDistorted] = useState(false);
-  const [isAudioReady, setIsAudioReady] = useState(false);
-  const [activeChordId, setActiveChordId] = useState<string | null>(null);
-  const [selectedRoot, setSelectedRoot] = useState('E'); // Default to Standard E
-  const [tuningMode, setTuningMode] = useState<TuningMode>(TuningMode.STANDARD);
-  const [vibeMode, setVibeMode] = useState<VibeMode>(VibeMode.MELODIC);
-  const [lockedChordId, setLockedChordId] = useState<string | null>(null);
-  const [lastDisplayedParentId, setLastDisplayedParentId] = useState<string | null>(null);
-  const lastDisplayedChordsRef = React.useRef<Chord[] | null>(null);
-  const [relatedChords, setRelatedChords] = useState<Chord[]>([]); // Related chords shown below main grid
-  const relatedSectionRef = React.useRef<HTMLElement>(null);
+  const {
+    isDistorted,
+    isAudioReady,
+    activeChordId,
+    selectedRoot,
+    tuningMode,
+    vibeMode,
+    lockedChordId,
+    relatedChords,
+    displayedChords,
+    isLoadingChords,
+    chordsToLoad,
+    totalChordsAvailable,
+    setIsDistorted,
+    setIsAudioReady,
+    setActiveChordId,
+    setSelectedRoot,
+    setTuningMode,
+    setVibeMode,
+    setLockedChordId,
+    setLastDisplayedParentId,
+    setRelatedChords,
+    setDisplayedChords,
+    setIsLoadingChords,
+    setChordsToLoad,
+    setTotalChordsAvailable,
+    resetLockState,
+    incrementChordsToLoad
+  } = useChordStore();
 
-  // Reset lock and last displayed parent when tuning or vibe changes
-  React.useEffect(() => {
-    console.log('🔄 Tuning or vibe changed, resetting locks');
-    setLockedChordId(null);
-    setLastDisplayedParentId(null);
-    lastDisplayedChordsRef.current = null;
-    setRelatedChords([]);
-  }, [tuningMode, vibeMode]);
+  const relatedSectionRef = useRef<HTMLElement>(null);
 
-  // Initialize Audio Context on first interaction
-  const handleUserInteraction = async () => {
+  useEffect(() => {
+    resetLockState();
+  }, [tuningMode, vibeMode, resetLockState]);
+
+  const handleUserInteraction = useCallback(async () => {
     if (!isAudioReady) {
       await audioEngine.init();
       setIsAudioReady(true);
     }
-  };
+  }, [isAudioReady, setIsAudioReady]);
 
-  const setDistortionMode = async (shouldBeDistorted: boolean) => {
-    // Only act if the mode is actually changing to prevent re-triggering same state unnecessarily
+  const setDistortionMode = useCallback(async (shouldBeDistorted: boolean) => {
     if (isDistorted === shouldBeDistorted && isAudioReady) return;
-
     await handleUserInteraction();
     setIsDistorted(shouldBeDistorted);
     audioEngine.setDistortion(shouldBeDistorted);
-  };
+  }, [isDistorted, isAudioReady, handleUserInteraction, setIsDistorted]);
 
-  const playChord = async (chord: Chord) => {
+  const playChord = useCallback(async (chord: Chord) => {
     await handleUserInteraction();
     audioEngine.playChord(chord.notes);
-    
-    // Visual trigger for active chord
     setActiveChordId(chord.id);
     setTimeout(() => setActiveChordId(null), 300);
-  };
+  }, [handleUserInteraction, setActiveChordId]);
 
-  const handleChordClick = async (chord: Chord) => {
-    // Only play the chord - don't lock it
-    // Locking only happens when lock button is pressed
+  const handleChordClick = useCallback(async (chord: Chord) => {
     await playChord(chord);
-  };
+  }, [playChord]);
 
-  const handleLockToggle = async (chord: Chord) => {
-    // NEW APPROACH: Don't change displayedChords at all!
-    // Just toggle lock state and load related chords separately
-
+  const handleLockToggle = useCallback(async (chord: Chord) => {
     if (lockedChordId === chord.id) {
-      // Same chord clicked - unlock it
       setLockedChordId(null);
       setLastDisplayedParentId(null);
-      setRelatedChords([]); // Clear related chords
+      setRelatedChords([]);
     } else {
-      // Different chord clicked - lock it
       await playChord(chord);
       setLockedChordId(chord.id);
       setLastDisplayedParentId(chord.id);
 
-      // Load related chords (shown in separate section below)
-      const library = await getChordLibrary();
-      const baseChords = library[tuningMode][vibeMode];
+      const baseChords = await getChords(tuningMode, vibeMode);
 
-      // Find the original parent chord
       const originalParent = baseChords.find((p: Chord) => {
         const transposed = transposeChord(p, selectedRoot, tuningMode);
         return transposed.id === chord.id;
@@ -106,7 +99,6 @@ const App: React.FC = () => {
           .map((relatedChord: Chord) => transposeChord(relatedChord, selectedRoot, tuningMode));
         setRelatedChords(transposedRelated);
 
-        // Smooth scroll to related section after a short delay
         setTimeout(() => {
           relatedSectionRef.current?.scrollIntoView({
             behavior: 'smooth',
@@ -117,169 +109,102 @@ const App: React.FC = () => {
         setRelatedChords([]);
       }
     }
-  };
+  }, [lockedChordId, playChord, selectedRoot, tuningMode, vibeMode, setLockedChordId, setLastDisplayedParentId, setRelatedChords]);
 
-  // Calculate which chords are locked (for internal use, not for display)
-  const lockedChordIds = React.useMemo(() => {
-    if (!lockedChordId) {
-      return new Set<string>();
-    }
-    
-    // Only the locked chord itself is considered locked
-    return new Set<string>([lockedChordId]);
-  }, [lockedChordId]);
-
-  // Helper function to check if a chord is locked
-  // The locked chord itself should be visually locked
-  const isChordLocked = React.useCallback((chord: Chord) => {
-    if (!lockedChordId) {
-      return false;
-    }
-    // Return true if this chord is the locked chord
+  const isChordLocked = useCallback((chord: Chord) => {
+    if (!lockedChordId) return false;
     return chord.id === lockedChordId;
   }, [lockedChordId]);
 
-  // LAZY LOADING: Load chords progressively
-  const [displayedChords, setDisplayedChords] = React.useState<Chord[]>([]);
-  const [isLoadingChords, setIsLoadingChords] = React.useState(false);
-  const [chordsToLoad, setChordsToLoad] = React.useState(6); // Start with 6 chords
-  const [totalChordsAvailable, setTotalChordsAvailable] = React.useState(0);
-  const CHORDS_PER_BATCH = 6; // Initial load: 6 chords
-  const RELATED_CHORDS_COUNT = 6; // When locked, load 6 related chords
-  
-  // Load initial batch of chords - ULTRA FAST: Show UI first, load data after
-  React.useEffect(() => {
-    console.log('🔄 App useEffect triggered', { tuningMode, vibeMode, selectedRoot });
-    
-    // IMMEDIATE: Show loading state instantly
+  useEffect(() => {
     setIsLoadingChords(true);
     setDisplayedChords([]);
-    setChordsToLoad(6); // Reset to 6 for initial load
-    
-    // Load data asynchronously after UI is shown
-    requestAnimationFrame(() => {
-      setTimeout(async () => {
-        try {
-          console.log('🔄 Loading chords library...');
-          
-          // Lazy load library
-          const library = await getChordLibrary();
-          
-          if (!library || !library[tuningMode] || !library[tuningMode][vibeMode]) {
-            console.error('❌ CHORD_LIBRARY not available');
-            setDisplayedChords([]);
-            setIsLoadingChords(false);
-            return;
-          }
-          
-          const baseChords = library[tuningMode][vibeMode];
-          if (!baseChords || baseChords.length === 0) {
-            console.warn('⚠️ No chords found');
-            setDisplayedChords([]);
-            setIsLoadingChords(false);
-            return;
-          }
-          
-          setTotalChordsAvailable(baseChords.length);
-          
-          // ULTRA FAST: Show first 6 chords immediately without transpose
-          const firstBatch = baseChords.slice(0, CHORDS_PER_BATCH);
-          const strippedChords = firstBatch.map(chord => ({
-            ...chord,
-            relatedChords: undefined // Remove for speed
-          }));
-          
-          console.log('✅ Showing', strippedChords.length, 'chords (no transpose)');
-          setDisplayedChords(strippedChords as Chord[]);
-          setIsLoadingChords(false);
-          
-          // Transpose in background
-          setTimeout(() => {
-            console.log('🔄 Transposing in background...');
-            const transposed = firstBatch.map(chord => {
-              try {
-                return transposeChord(chord, selectedRoot, tuningMode);
-              } catch (e) {
-                console.error('Transpose error:', e);
-                return chord;
-              }
-            });
-            setDisplayedChords(transposed);
-            console.log('✅ Transpose done');
-          }, 150);
-        } catch (error) {
-          console.error('❌ Error loading chords:', error);
+    setChordsToLoad(6);
+
+    const loadChords = async () => {
+      try {
+        const baseChords = await getChords(tuningMode, vibeMode);
+
+        if (!baseChords || baseChords.length === 0) {
           setDisplayedChords([]);
           setIsLoadingChords(false);
+          return;
         }
-      }, 50); // Very short delay
-    });
-  }, [selectedRoot, tuningMode, vibeMode]);
-  
-  // Load more chords function - with progressive transpose
-  const loadMoreChords = React.useCallback(async () => {
+
+        setTotalChordsAvailable(baseChords.length);
+
+        const firstBatch = baseChords.slice(0, CHORDS_PER_BATCH);
+        const strippedChords = firstBatch.map((chord: Chord) => ({
+          ...chord,
+          relatedChords: undefined
+        }));
+
+        setDisplayedChords(strippedChords as Chord[]);
+        setIsLoadingChords(false);
+
+        setTimeout(() => {
+          const transposed = firstBatch.map((chord: Chord) => {
+            try {
+              return transposeChord(chord, selectedRoot, tuningMode);
+            } catch {
+              return chord;
+            }
+          });
+          setDisplayedChords(transposed);
+        }, 150);
+      } catch {
+        setDisplayedChords([]);
+        setIsLoadingChords(false);
+      }
+    };
+
+    loadChords();
+  }, [selectedRoot, tuningMode, vibeMode, setDisplayedChords, setIsLoadingChords, setChordsToLoad, setTotalChordsAvailable]);
+
+  const loadMoreChords = useCallback(async () => {
     if (isLoadingChords) return;
-    
+
     setIsLoadingChords(true);
-    console.log('📥 Loading more chords...', chordsToLoad);
-    
+
     try {
-      const library = CHORD_LIBRARY || await getChordLibrary();
-      if (!library || !library[tuningMode] || !library[tuningMode][vibeMode]) {
+      const baseChords = await getChords(tuningMode, vibeMode);
+      if (!baseChords || baseChords.length === 0) {
         setIsLoadingChords(false);
         return;
       }
-      
-      const baseChords = library[tuningMode][vibeMode];
+
       const nextBatch = baseChords.slice(chordsToLoad, chordsToLoad + CHORDS_PER_BATCH);
-      
+
       if (nextBatch.length === 0) {
-        console.log('✅ All chords loaded');
         setIsLoadingChords(false);
         return;
       }
-      
-      // Show chords immediately, transpose in background
-      setDisplayedChords(prev => [...prev, ...(nextBatch as Chord[])]);
-      setChordsToLoad(prev => prev + CHORDS_PER_BATCH);
-      
-      // Transpose in background
+
+      setDisplayedChords([...displayedChords, ...(nextBatch as Chord[])]);
+      incrementChordsToLoad(CHORDS_PER_BATCH);
+
       setTimeout(() => {
-        const transposed = nextBatch.map(chord => {
+        const transposed = nextBatch.map((chord: Chord) => {
           try {
             return transposeChord(chord, selectedRoot, tuningMode);
-          } catch (e) {
-            console.error('Transpose error:', e);
+          } catch {
             return chord;
           }
         });
-        
-        // Replace untransposed chords with transposed ones
-        setDisplayedChords(prev => {
-          const newChords = [...prev];
-          const startIndex = prev.length - transposed.length;
-          transposed.forEach((chord, i) => {
-            newChords[startIndex + i] = chord;
-          });
-          return newChords;
+
+        const newChords = [...displayedChords];
+        const startIndex = displayedChords.length;
+        transposed.forEach((chord: Chord, i: number) => {
+          newChords[startIndex + i] = chord;
         });
-        console.log('✅ Transposed', transposed.length, 'more chords');
+        setDisplayedChords(newChords);
       }, 100);
-      
+
       setIsLoadingChords(false);
-    } catch (error) {
-      console.error('❌ Error loading more:', error);
+    } catch {
       setIsLoadingChords(false);
     }
-  }, [chordsToLoad, tuningMode, vibeMode, selectedRoot, isLoadingChords]);
-  
-  // Store displayed chords for position tracking (using ref to avoid re-renders)
-  // REMOVED to prevent infinite loop - this was causing the issue
-  // React.useEffect(() => {
-  //   if (displayedChords.length > 0) {
-  //     lastDisplayedChordsRef.current = displayedChords;
-  //   }
-  // }, [displayedChords]);
+  }, [chordsToLoad, tuningMode, vibeMode, selectedRoot, isLoadingChords, displayedChords, setDisplayedChords, setIsLoadingChords, incrementChordsToLoad]);
 
   return (
     <motion.div
@@ -288,8 +213,6 @@ const App: React.FC = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-
-      {/* Animated Background Glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <motion.div
           className="absolute w-[800px] h-[800px] rounded-full opacity-20"
@@ -310,13 +233,9 @@ const App: React.FC = () => {
         />
       </div>
 
-      {/* Background Ambiance / Noise */}
       <div className="fixed inset-0 opacity-[0.02] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
-      {/* Main Container - Expanded to max-w-7xl for wider layout */}
       <div className={`relative z-10 max-w-7xl mx-auto px-6 py-12 flex flex-col min-h-screen ${isDistorted ? 'glitch-active' : ''}`}>
-
-        {/* Header - Animated */}
         <motion.header
           className="mb-12 text-center"
           initial={{ opacity: 0, y: -30 }}
@@ -359,12 +278,10 @@ const App: React.FC = () => {
           </motion.p>
         </motion.header>
 
-        {/* Control Center - Constrained width to keep UI tight while main grid is wide */}
         <div className="w-full max-w-4xl mx-auto">
           <section className="mb-12 sticky top-4 z-50 backdrop-blur-md bg-black/40 p-4 rounded-xl border border-white/5 shadow-2xl">
             <DistortionSwitch isDistorted={isDistorted} onChange={setDistortionMode} />
-            
-            {/* Status Indicators */}
+
             <div className="flex justify-between items-center mt-4 px-2 md:px-4 max-w-lg mx-auto">
               <div className="flex items-center gap-2">
                 <div className={`w-1.5 h-1.5 rounded-full ${isAudioReady ? 'bg-green-500 shadow-[0_0_5px_lime]' : 'bg-red-900'}`}></div>
@@ -381,36 +298,32 @@ const App: React.FC = () => {
             </div>
           </section>
 
-          {/* Tuning, Vibe & Root Selection */}
           <section className="mb-8">
-              <TuningSelector 
-                tuning={tuningMode} 
-                setTuning={setTuningMode} 
-                isDistorted={isDistorted} 
+              <TuningSelector
+                tuning={tuningMode}
+                setTuning={setTuningMode}
+                isDistorted={isDistorted}
               />
-              
-              <VibeSelector 
-                vibe={vibeMode} 
-                setVibe={setVibeMode} 
-                isDistorted={isDistorted} 
+
+              <VibeSelector
+                vibe={vibeMode}
+                setVibe={setVibeMode}
+                isDistorted={isDistorted}
               />
-              
-              <RootSelector 
-                  selectedRoot={selectedRoot} 
-                  onSelectRoot={setSelectedRoot} 
+
+              <RootSelector
+                  selectedRoot={selectedRoot}
+                  onSelectRoot={setSelectedRoot}
                   isDistorted={isDistorted}
               />
           </section>
         </div>
 
-        {/* Chord Grid - Responsive: 1 col mobile, 2 cols tablet, 3 cols desktop */}
         <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20" style={{ isolation: 'isolate' }}>
           {displayedChords && displayedChords.length > 0 ? (
             <>
               {displayedChords.map((chord, index) => {
                 const locked = isChordLocked(chord);
-                // Use index as key to prevent layout jumps on root change
-                // The chord content will smoothly update
                 return (
                   <div
                     key={`chord-slot-${index}`}
@@ -429,8 +342,7 @@ const App: React.FC = () => {
                   </div>
                 );
               })}
-              
-              {/* Load More Button - Only show if there are more chords to load */}
+
               {chordsToLoad < totalChordsAvailable && (
                 <motion.div
                   className="col-span-full flex justify-center py-8"
@@ -478,7 +390,6 @@ const App: React.FC = () => {
           )}
         </main>
 
-        {/* Related Chords Section - Shown when a chord is locked */}
         <AnimatePresence>
           {relatedChords.length > 0 && lockedChordId && (
             <motion.section
@@ -489,12 +400,10 @@ const App: React.FC = () => {
               transition={{ duration: 0.3 }}
               className="mb-12 scroll-mt-4"
             >
-              {/* Locked chord info + title */}
               {(() => {
                 const lockedChord = displayedChords.find(c => c.id === lockedChordId);
                 return (
                   <div className="flex flex-col items-center gap-3 mb-6">
-                    {/* Main title row */}
                     <div className="flex items-center gap-4 w-full">
                       <div className={`h-px flex-1 ${isDistorted ? 'bg-rose-500/30' : 'bg-cyan-500/30'}`} />
                       <h3 className={`font-['Share_Tech_Mono'] text-sm uppercase tracking-widest ${isDistorted ? 'text-rose-400' : 'text-cyan-400'}`}>
@@ -503,7 +412,6 @@ const App: React.FC = () => {
                       <div className={`h-px flex-1 ${isDistorted ? 'bg-rose-500/30' : 'bg-cyan-500/30'}`} />
                     </div>
 
-                    {/* Locked chord badge */}
                     {lockedChord && (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -514,22 +422,18 @@ const App: React.FC = () => {
                             : 'bg-cyan-500/10 border-cyan-500/30'
                         }`}
                       >
-                        {/* Root note */}
                         <span className={`font-['Oswald'] text-2xl font-bold ${
                           isDistorted ? 'text-rose-400' : 'text-cyan-400'
                         }`}>
                           {selectedRoot}
                         </span>
 
-                        {/* Divider */}
                         <div className={`w-px h-6 ${isDistorted ? 'bg-rose-500/40' : 'bg-cyan-500/40'}`} />
 
-                        {/* Chord name */}
                         <span className="font-['Oswald'] text-lg text-neutral-200 uppercase tracking-wide">
                           {lockedChord.name}
                         </span>
 
-                        {/* Lock indicator */}
                         <motion.div
                           className={`w-2 h-2 rounded-full ${isDistorted ? 'bg-rose-500' : 'bg-cyan-500'}`}
                           animate={{
@@ -569,7 +473,6 @@ const App: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Footer - Animated */}
         <motion.footer
           className="mt-auto pt-12 border-t border-neutral-900 text-center"
           initial={{ opacity: 0 }}

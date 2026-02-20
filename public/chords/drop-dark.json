@@ -1,0 +1,104 @@
+[
+  {
+    "id": "drop-dark-1",
+    "name": "Drop Omen",
+    "subtext": "m2 Clash",
+    "notes": ["D2", "D#2", "A2", "D3"],
+    "description": "Drop tuning darkness. Heavy m2.",
+    "fretboard": "0 1 2 x x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-dark-1-child-1", "name": "Drop Phrygian", "subtext": "b2", "notes": ["D2", "D#2", "F#2", "A2", "D3"], "description": "Phrygian foundation.", "fretboard": "0 1 4 2 0 x", "baseRoot": "D" },
+      { "id": "drop-dark-1-child-2", "name": "Drop Tritone", "subtext": "b5", "notes": ["D2", "G#2", "D3", "G#3"], "description": "Devil's interval.", "fretboard": "0 6 0 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-1-child-3", "name": "Drop Dim Phrygian", "subtext": "Dim/b2", "notes": ["D2", "D#2", "F2", "G#2"], "description": "Maximum tension.", "fretboard": "0 1 3 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-1-child-4", "name": "Drop Phrygian b6", "subtext": "b2/b6", "notes": ["D2", "D#2", "F#2", "A2", "A#2"], "description": "Exotic darkness.", "fretboard": "0 1 4 2 3 x", "baseRoot": "D" },
+      { "id": "drop-dark-1-child-5", "name": "Drop Tritone Resolve", "subtext": "b5/m2", "notes": ["D2", "D#2", "G#2", "D3"], "description": "Unsettling resolve.", "fretboard": "0 1 6 0 x x", "baseRoot": "D" },
+      { "id": "drop-dark-1-child-6", "name": "Drop Phrygian 7th", "subtext": "b2/b7", "notes": ["D2", "D#2", "C3", "D3"], "description": "Dark dominant.", "fretboard": "0 1 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-dark-2",
+    "name": "Drop Phrygian",
+    "subtext": "b2",
+    "notes": ["D2", "D#2", "F#2", "A2", "D3"],
+    "description": "Phrygian dominant drop. Exotic.",
+    "fretboard": "0 1 4 2 0 x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-dark-2-child-1", "name": "Drop Omen", "subtext": "m2 Clash", "notes": ["D2", "D#2", "A2", "D3"], "description": "Minor 2nd dissonance.", "fretboard": "0 1 2 x x x", "baseRoot": "D" },
+      { "id": "drop-dark-2-child-2", "name": "Drop Tritone", "subtext": "b5", "notes": ["D2", "G#2", "D3", "G#3"], "description": "Devil's interval.", "fretboard": "0 6 0 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-2-child-3", "name": "Drop Dim Phrygian", "subtext": "Dim/b2", "notes": ["D2", "D#2", "F2", "G#2"], "description": "Maximum tension.", "fretboard": "0 1 3 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-2-child-4", "name": "Drop Phrygian b6", "subtext": "b2/b6", "notes": ["D2", "D#2", "F#2", "A2", "A#2"], "description": "Exotic darkness.", "fretboard": "0 1 4 2 3 x", "baseRoot": "D" },
+      { "id": "drop-dark-2-child-5", "name": "Drop Tritone Resolve", "subtext": "b5/m2", "notes": ["D2", "D#2", "G#2", "D3"], "description": "Unsettling resolve.", "fretboard": "0 1 6 0 x x", "baseRoot": "D" },
+      { "id": "drop-dark-2-child-6", "name": "Drop Phrygian 7th", "subtext": "b2/b7", "notes": ["D2", "D#2", "C3", "D3"], "description": "Dark dominant.", "fretboard": "0 1 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-dark-3",
+    "name": "Drop Tritone",
+    "subtext": "b5",
+    "notes": ["D2", "G#2", "D3", "G#3"],
+    "description": "Devil's interval. Drop power.",
+    "fretboard": "0 6 0 6 x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-dark-3-child-1", "name": "Drop Omen", "subtext": "m2 Clash", "notes": ["D2", "D#2", "A2", "D3"], "description": "Minor 2nd dissonance.", "fretboard": "0 1 2 x x x", "baseRoot": "D" },
+      { "id": "drop-dark-3-child-2", "name": "Drop Phrygian", "subtext": "b2", "notes": ["D2", "D#2", "F#2", "A2", "D3"], "description": "Phrygian foundation.", "fretboard": "0 1 4 2 0 x", "baseRoot": "D" },
+      { "id": "drop-dark-3-child-3", "name": "Drop Dim Phrygian", "subtext": "Dim/b2", "notes": ["D2", "D#2", "F2", "G#2"], "description": "Maximum tension.", "fretboard": "0 1 3 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-3-child-4", "name": "Drop Phrygian b6", "subtext": "b2/b6", "notes": ["D2", "D#2", "F#2", "A2", "A#2"], "description": "Exotic darkness.", "fretboard": "0 1 4 2 3 x", "baseRoot": "D" },
+      { "id": "drop-dark-3-child-5", "name": "Drop Tritone Resolve", "subtext": "b5/m2", "notes": ["D2", "D#2", "G#2", "D3"], "description": "Unsettling resolve.", "fretboard": "0 1 6 0 x x", "baseRoot": "D" },
+      { "id": "drop-dark-3-child-6", "name": "Drop Phrygian 7th", "subtext": "b2/b7", "notes": ["D2", "D#2", "C3", "D3"], "description": "Dark dominant.", "fretboard": "0 1 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-dark-4",
+    "name": "Drop Dim Phrygian",
+    "subtext": "Dim/b2",
+    "notes": ["D2", "D#2", "F2", "G#2"],
+    "description": "Diminished with m2. Maximum tension.",
+    "fretboard": "0 1 3 6 x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-dark-4-child-1", "name": "Drop Omen", "subtext": "m2 Clash", "notes": ["D2", "D#2", "A2", "D3"], "description": "Minor 2nd dissonance.", "fretboard": "0 1 2 x x x", "baseRoot": "D" },
+      { "id": "drop-dark-4-child-2", "name": "Drop Phrygian", "subtext": "b2", "notes": ["D2", "D#2", "F#2", "A2", "D3"], "description": "Phrygian foundation.", "fretboard": "0 1 4 2 0 x", "baseRoot": "D" },
+      { "id": "drop-dark-4-child-3", "name": "Drop Tritone", "subtext": "b5", "notes": ["D2", "G#2", "D3", "G#3"], "description": "Devil's interval.", "fretboard": "0 6 0 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-4-child-4", "name": "Drop Phrygian b6", "subtext": "b2/b6", "notes": ["D2", "D#2", "F#2", "A2", "A#2"], "description": "Exotic darkness.", "fretboard": "0 1 4 2 3 x", "baseRoot": "D" },
+      { "id": "drop-dark-4-child-5", "name": "Drop Tritone Resolve", "subtext": "b5/m2", "notes": ["D2", "D#2", "G#2", "D3"], "description": "Unsettling resolve.", "fretboard": "0 1 6 0 x x", "baseRoot": "D" },
+      { "id": "drop-dark-4-child-6", "name": "Drop Phrygian 7th", "subtext": "b2/b7", "notes": ["D2", "D#2", "C3", "D3"], "description": "Dark dominant.", "fretboard": "0 1 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-dark-5",
+    "name": "Drop Phrygian b6",
+    "subtext": "b2/b6",
+    "notes": ["D2", "D#2", "F#2", "A2", "A#2"],
+    "description": "Exotic drop darkness. Heavy.",
+    "fretboard": "0 1 4 2 3 x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-dark-5-child-1", "name": "Drop Omen", "subtext": "m2 Clash", "notes": ["D2", "D#2", "A2", "D3"], "description": "Minor 2nd dissonance.", "fretboard": "0 1 2 x x x", "baseRoot": "D" },
+      { "id": "drop-dark-5-child-2", "name": "Drop Phrygian", "subtext": "b2", "notes": ["D2", "D#2", "F#2", "A2", "D3"], "description": "Phrygian foundation.", "fretboard": "0 1 4 2 0 x", "baseRoot": "D" },
+      { "id": "drop-dark-5-child-3", "name": "Drop Tritone", "subtext": "b5", "notes": ["D2", "G#2", "D3", "G#3"], "description": "Devil's interval.", "fretboard": "0 6 0 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-5-child-4", "name": "Drop Dim Phrygian", "subtext": "Dim/b2", "notes": ["D2", "D#2", "F2", "G#2"], "description": "Maximum tension.", "fretboard": "0 1 3 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-5-child-5", "name": "Drop Tritone Resolve", "subtext": "b5/m2", "notes": ["D2", "D#2", "G#2", "D3"], "description": "Unsettling resolve.", "fretboard": "0 1 6 0 x x", "baseRoot": "D" },
+      { "id": "drop-dark-5-child-6", "name": "Drop Phrygian 7th", "subtext": "b2/b7", "notes": ["D2", "D#2", "C3", "D3"], "description": "Dark dominant.", "fretboard": "0 1 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-dark-6",
+    "name": "Drop Tritone Resolve",
+    "subtext": "b5/m2",
+    "notes": ["D2", "D#2", "G#2", "D3"],
+    "description": "Tritone with m2 clash. Unsettling.",
+    "fretboard": "0 1 6 0 x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-dark-6-child-1", "name": "Drop Omen", "subtext": "m2 Clash", "notes": ["D2", "D#2", "A2", "D3"], "description": "Minor 2nd dissonance.", "fretboard": "0 1 2 x x x", "baseRoot": "D" },
+      { "id": "drop-dark-6-child-2", "name": "Drop Phrygian", "subtext": "b2", "notes": ["D2", "D#2", "F#2", "A2", "D3"], "description": "Phrygian foundation.", "fretboard": "0 1 4 2 0 x", "baseRoot": "D" },
+      { "id": "drop-dark-6-child-3", "name": "Drop Tritone", "subtext": "b5", "notes": ["D2", "G#2", "D3", "G#3"], "description": "Devil's interval.", "fretboard": "0 6 0 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-6-child-4", "name": "Drop Dim Phrygian", "subtext": "Dim/b2", "notes": ["D2", "D#2", "F2", "G#2"], "description": "Maximum tension.", "fretboard": "0 1 3 6 x x", "baseRoot": "D" },
+      { "id": "drop-dark-6-child-5", "name": "Drop Phrygian b6", "subtext": "b2/b6", "notes": ["D2", "D#2", "F#2", "A2", "A#2"], "description": "Exotic darkness.", "fretboard": "0 1 4 2 3 x", "baseRoot": "D" },
+      { "id": "drop-dark-6-child-6", "name": "Drop Phrygian 7th", "subtext": "b2/b7", "notes": ["D2", "D#2", "C3", "D3"], "description": "Dark dominant.", "fretboard": "0 1 0 2 x x", "baseRoot": "D" }
+    ]
+  }
+]

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "drop-energetic-1",
+    "name": "Drop D Power",
+    "subtext": "5th",
+    "notes": ["D2", "A2", "D3"],
+    "description": "Classic drop power. Heavy.",
+    "fretboard": "0 0 2 x x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-energetic-1-child-1", "name": "Drop D Sus4", "subtext": "Sus4", "notes": ["D2", "G2", "A2", "D3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-1-child-2", "name": "Drop D Sus2", "subtext": "Sus2", "notes": ["D2", "E2", "A2", "D3"], "description": "Sus2 variation.", "fretboard": "0 2 0 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-1-child-3", "name": "Drop D Octave", "subtext": "Octave", "notes": ["D2", "D3", "A3"], "description": "Octave variation.", "fretboard": "0 0 0 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-1-child-4", "name": "Drop D Low Stack", "subtext": "Low 5th", "notes": ["D1", "D2", "A2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-1-child-5", "name": "Drop D Double 5th", "subtext": "5th Stack", "notes": ["D2", "A2", "D3", "A3"], "description": "Double stop power.", "fretboard": "0 0 2 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-1-child-6", "name": "Drop D Add4", "subtext": "5th/4th", "notes": ["D2", "G2", "A2", "D3"], "description": "Djent-style add4.", "fretboard": "0 0 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-energetic-2",
+    "name": "Drop D Sus4",
+    "subtext": "Sus4",
+    "notes": ["D2", "G2", "A2", "D3"],
+    "description": "Drop sus4 chug. Gallop-ready.",
+    "fretboard": "0 0 2 2 x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-energetic-2-child-1", "name": "Drop D Power", "subtext": "5th", "notes": ["D2", "A2", "D3"], "description": "Power variation.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-2-child-2", "name": "Drop D Sus2", "subtext": "Sus2", "notes": ["D2", "E2", "A2", "D3"], "description": "Sus2 variation.", "fretboard": "0 2 0 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-2-child-3", "name": "Drop D Octave", "subtext": "Octave", "notes": ["D2", "D3", "A3"], "description": "Octave variation.", "fretboard": "0 0 0 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-2-child-4", "name": "Drop D Low Stack", "subtext": "Low 5th", "notes": ["D1", "D2", "A2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-2-child-5", "name": "Drop D Double 5th", "subtext": "5th Stack", "notes": ["D2", "A2", "D3", "A3"], "description": "Double stop power.", "fretboard": "0 0 2 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-2-child-6", "name": "Drop D Add4", "subtext": "5th/4th", "notes": ["D2", "G2", "A2", "D3"], "description": "Djent-style add4.", "fretboard": "0 0 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-energetic-3",
+    "name": "Drop D Sus2",
+    "subtext": "Sus2",
+    "notes": ["D2", "E2", "A2", "D3"],
+    "description": "Sus2 with D drone. Modern metalcore.",
+    "fretboard": "0 2 0 0 x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-energetic-3-child-1", "name": "Drop D Power", "subtext": "5th", "notes": ["D2", "A2", "D3"], "description": "Power variation.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-3-child-2", "name": "Drop D Sus4", "subtext": "Sus4", "notes": ["D2", "G2", "A2", "D3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-3-child-3", "name": "Drop D Octave", "subtext": "Octave", "notes": ["D2", "D3", "A3"], "description": "Octave variation.", "fretboard": "0 0 0 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-3-child-4", "name": "Drop D Low Stack", "subtext": "Low 5th", "notes": ["D1", "D2", "A2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-3-child-5", "name": "Drop D Double 5th", "subtext": "5th Stack", "notes": ["D2", "A2", "D3", "A3"], "description": "Double stop power.", "fretboard": "0 0 2 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-3-child-6", "name": "Drop D Add4", "subtext": "5th/4th", "notes": ["D2", "G2", "A2", "D3"], "description": "Djent-style add4.", "fretboard": "0 0 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-energetic-4",
+    "name": "Drop D Octave",
+    "subtext": "Octave",
+    "notes": ["D2", "D3", "A3"],
+    "description": "Drop octaves. Rhythmic clarity.",
+    "fretboard": "0 0 0 x x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-energetic-4-child-1", "name": "Drop D Power", "subtext": "5th", "notes": ["D2", "A2", "D3"], "description": "Power variation.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-4-child-2", "name": "Drop D Sus4", "subtext": "Sus4", "notes": ["D2", "G2", "A2", "D3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-4-child-3", "name": "Drop D Sus2", "subtext": "Sus2", "notes": ["D2", "E2", "A2", "D3"], "description": "Sus2 variation.", "fretboard": "0 2 0 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-4-child-4", "name": "Drop D Low Stack", "subtext": "Low 5th", "notes": ["D1", "D2", "A2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-4-child-5", "name": "Drop D Double 5th", "subtext": "5th Stack", "notes": ["D2", "A2", "D3", "A3"], "description": "Double stop power.", "fretboard": "0 0 2 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-4-child-6", "name": "Drop D Add4", "subtext": "5th/4th", "notes": ["D2", "G2", "A2", "D3"], "description": "Djent-style add4.", "fretboard": "0 0 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-energetic-5",
+    "name": "Drop D Low Stack",
+    "subtext": "Low 5th",
+    "notes": ["D1", "D2", "A2"],
+    "description": "Ultra low-end. Palm mute.",
+    "fretboard": "0 0 2 x x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-energetic-5-child-1", "name": "Drop D Power", "subtext": "5th", "notes": ["D2", "A2", "D3"], "description": "Power variation.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-5-child-2", "name": "Drop D Sus4", "subtext": "Sus4", "notes": ["D2", "G2", "A2", "D3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-5-child-3", "name": "Drop D Sus2", "subtext": "Sus2", "notes": ["D2", "E2", "A2", "D3"], "description": "Sus2 variation.", "fretboard": "0 2 0 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-5-child-4", "name": "Drop D Octave", "subtext": "Octave", "notes": ["D2", "D3", "A3"], "description": "Octave variation.", "fretboard": "0 0 0 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-5-child-5", "name": "Drop D Double 5th", "subtext": "5th Stack", "notes": ["D2", "A2", "D3", "A3"], "description": "Double stop power.", "fretboard": "0 0 2 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-5-child-6", "name": "Drop D Add4", "subtext": "5th/4th", "notes": ["D2", "G2", "A2", "D3"], "description": "Djent-style add4.", "fretboard": "0 0 0 2 x x", "baseRoot": "D" }
+    ]
+  },
+  {
+    "id": "drop-energetic-6",
+    "name": "Drop D Double 5th",
+    "subtext": "5th Stack",
+    "notes": ["D2", "A2", "D3", "A3"],
+    "description": "Double drop power. Maximum punch.",
+    "fretboard": "0 0 2 0 x x",
+    "baseRoot": "D",
+    "relatedChords": [
+      { "id": "drop-energetic-6-child-1", "name": "Drop D Power", "subtext": "5th", "notes": ["D2", "A2", "D3"], "description": "Power variation.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-6-child-2", "name": "Drop D Sus4", "subtext": "Sus4", "notes": ["D2", "G2", "A2", "D3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-6-child-3", "name": "Drop D Sus2", "subtext": "Sus2", "notes": ["D2", "E2", "A2", "D3"], "description": "Sus2 variation.", "fretboard": "0 2 0 0 x x", "baseRoot": "D" },
+      { "id": "drop-energetic-6-child-4", "name": "Drop D Octave", "subtext": "Octave", "notes": ["D2", "D3", "A3"], "description": "Octave variation.", "fretboard": "0 0 0 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-6-child-5", "name": "Drop D Low Stack", "subtext": "Low 5th", "notes": ["D1", "D2", "A2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "D" },
+      { "id": "drop-energetic-6-child-6", "name": "Drop D Add4", "subtext": "5th/4th", "notes": ["D2", "G2", "A2", "D3"], "description": "Djent-style add4.", "fretboard": "0 0 0 2 x x", "baseRoot": "D" }
+    ]
+  }
+]

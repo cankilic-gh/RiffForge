@@ -1,0 +1,104 @@
+[
+  {
+    "id": "energetic-1",
+    "name": "E Power",
+    "subtext": "5th",
+    "notes": ["E2", "B2", "E3"],
+    "description": "Classic power. Palm mute ready.",
+    "fretboard": "0 2 2 x x x",
+    "baseRoot": "E",
+    "relatedChords": [
+      { "id": "energetic-1-child-1", "name": "E Sus4", "subtext": "Sus4", "notes": ["E2", "A2", "B2", "E3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "E" },
+      { "id": "energetic-1-child-2", "name": "E Sus2", "subtext": "Sus2", "notes": ["E2", "F#2", "B2", "E3"], "description": "Sus2 variation.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-1-child-3", "name": "E Octave", "subtext": "Octave", "notes": ["E2", "E3", "B3"], "description": "Octave variation.", "fretboard": "0 2 0 x x x", "baseRoot": "E" },
+      { "id": "energetic-1-child-4", "name": "E Low Stack", "subtext": "Low 5th", "notes": ["E1", "E2", "B2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-1-child-5", "name": "E Double 5th", "subtext": "5th Stack", "notes": ["E2", "B2", "E3", "B3"], "description": "Double stop power.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-1-child-6", "name": "E Add4", "subtext": "5th/4th", "notes": ["E2", "A2", "B2", "E3"], "description": "Djent-style add4.", "fretboard": "0 0 2 0 x x", "baseRoot": "E" }
+    ]
+  },
+  {
+    "id": "energetic-2",
+    "name": "E Sus4",
+    "subtext": "Sus4",
+    "notes": ["E2", "A2", "B2", "E3"],
+    "description": "Tight sus4. Gallop-friendly.",
+    "fretboard": "0 0 2 2 x x",
+    "baseRoot": "E",
+    "relatedChords": [
+      { "id": "energetic-2-child-1", "name": "E Power", "subtext": "5th", "notes": ["E2", "B2", "E3"], "description": "Power variation.", "fretboard": "0 2 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-2-child-2", "name": "E Sus2", "subtext": "Sus2", "notes": ["E2", "F#2", "B2", "E3"], "description": "Sus2 variation.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-2-child-3", "name": "E Octave", "subtext": "Octave", "notes": ["E2", "E3", "B3"], "description": "Octave variation.", "fretboard": "0 2 0 x x x", "baseRoot": "E" },
+      { "id": "energetic-2-child-4", "name": "E Low Stack", "subtext": "Low 5th", "notes": ["E1", "E2", "B2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-2-child-5", "name": "E Double 5th", "subtext": "5th Stack", "notes": ["E2", "B2", "E3", "B3"], "description": "Double stop power.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-2-child-6", "name": "E Add4", "subtext": "5th/4th", "notes": ["E2", "A2", "B2", "E3"], "description": "Djent-style add4.", "fretboard": "0 0 2 0 x x", "baseRoot": "E" }
+    ]
+  },
+  {
+    "id": "energetic-3",
+    "name": "E Sus2",
+    "subtext": "Sus2",
+    "notes": ["E2", "F#2", "B2", "E3"],
+    "description": "Sus2 with E drone. Modern metalcore.",
+    "fretboard": "0 2 2 0 x x",
+    "baseRoot": "E",
+    "relatedChords": [
+      { "id": "energetic-3-child-1", "name": "E Power", "subtext": "5th", "notes": ["E2", "B2", "E3"], "description": "Power variation.", "fretboard": "0 2 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-3-child-2", "name": "E Sus4", "subtext": "Sus4", "notes": ["E2", "A2", "B2", "E3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "E" },
+      { "id": "energetic-3-child-3", "name": "E Octave", "subtext": "Octave", "notes": ["E2", "E3", "B3"], "description": "Octave variation.", "fretboard": "0 2 0 x x x", "baseRoot": "E" },
+      { "id": "energetic-3-child-4", "name": "E Low Stack", "subtext": "Low 5th", "notes": ["E1", "E2", "B2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-3-child-5", "name": "E Double 5th", "subtext": "5th Stack", "notes": ["E2", "B2", "E3", "B3"], "description": "Double stop power.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-3-child-6", "name": "E Add4", "subtext": "5th/4th", "notes": ["E2", "A2", "B2", "E3"], "description": "Djent-style add4.", "fretboard": "0 0 2 0 x x", "baseRoot": "E" }
+    ]
+  },
+  {
+    "id": "energetic-4",
+    "name": "E Octave",
+    "subtext": "Octave",
+    "notes": ["E2", "E3", "B3"],
+    "description": "Clean octaves. Rhythmic clarity.",
+    "fretboard": "0 2 0 x x x",
+    "baseRoot": "E",
+    "relatedChords": [
+      { "id": "energetic-4-child-1", "name": "E Power", "subtext": "5th", "notes": ["E2", "B2", "E3"], "description": "Power variation.", "fretboard": "0 2 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-4-child-2", "name": "E Sus4", "subtext": "Sus4", "notes": ["E2", "A2", "B2", "E3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "E" },
+      { "id": "energetic-4-child-3", "name": "E Sus2", "subtext": "Sus2", "notes": ["E2", "F#2", "B2", "E3"], "description": "Sus2 variation.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-4-child-4", "name": "E Low Stack", "subtext": "Low 5th", "notes": ["E1", "E2", "B2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-4-child-5", "name": "E Double 5th", "subtext": "5th Stack", "notes": ["E2", "B2", "E3", "B3"], "description": "Double stop power.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-4-child-6", "name": "E Add4", "subtext": "5th/4th", "notes": ["E2", "A2", "B2", "E3"], "description": "Djent-style add4.", "fretboard": "0 0 2 0 x x", "baseRoot": "E" }
+    ]
+  },
+  {
+    "id": "energetic-5",
+    "name": "E Low Stack",
+    "subtext": "Low 5th",
+    "notes": ["E1", "E2", "B2"],
+    "description": "Ultra low-end. Palm mute required.",
+    "fretboard": "0 0 2 x x x",
+    "baseRoot": "E",
+    "relatedChords": [
+      { "id": "energetic-5-child-1", "name": "E Power", "subtext": "5th", "notes": ["E2", "B2", "E3"], "description": "Power variation.", "fretboard": "0 2 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-5-child-2", "name": "E Sus4", "subtext": "Sus4", "notes": ["E2", "A2", "B2", "E3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "E" },
+      { "id": "energetic-5-child-3", "name": "E Sus2", "subtext": "Sus2", "notes": ["E2", "F#2", "B2", "E3"], "description": "Sus2 variation.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-5-child-4", "name": "E Octave", "subtext": "Octave", "notes": ["E2", "E3", "B3"], "description": "Octave variation.", "fretboard": "0 2 0 x x x", "baseRoot": "E" },
+      { "id": "energetic-5-child-5", "name": "E Double 5th", "subtext": "5th Stack", "notes": ["E2", "B2", "E3", "B3"], "description": "Double stop power.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-5-child-6", "name": "E Add4", "subtext": "5th/4th", "notes": ["E2", "A2", "B2", "E3"], "description": "Djent-style add4.", "fretboard": "0 0 2 0 x x", "baseRoot": "E" }
+    ]
+  },
+  {
+    "id": "energetic-6",
+    "name": "E Double 5th",
+    "subtext": "5th Stack",
+    "notes": ["E2", "B2", "E3", "B3"],
+    "description": "Double stop power. Maximum punch.",
+    "fretboard": "0 2 2 0 x x",
+    "baseRoot": "E",
+    "relatedChords": [
+      { "id": "energetic-6-child-1", "name": "E Power", "subtext": "5th", "notes": ["E2", "B2", "E3"], "description": "Power variation.", "fretboard": "0 2 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-6-child-2", "name": "E Sus4", "subtext": "Sus4", "notes": ["E2", "A2", "B2", "E3"], "description": "Sus4 variation.", "fretboard": "0 0 2 2 x x", "baseRoot": "E" },
+      { "id": "energetic-6-child-3", "name": "E Sus2", "subtext": "Sus2", "notes": ["E2", "F#2", "B2", "E3"], "description": "Sus2 variation.", "fretboard": "0 2 2 0 x x", "baseRoot": "E" },
+      { "id": "energetic-6-child-4", "name": "E Octave", "subtext": "Octave", "notes": ["E2", "E3", "B3"], "description": "Octave variation.", "fretboard": "0 2 0 x x x", "baseRoot": "E" },
+      { "id": "energetic-6-child-5", "name": "E Low Stack", "subtext": "Low 5th", "notes": ["E1", "E2", "B2"], "description": "Ultra low-end.", "fretboard": "0 0 2 x x x", "baseRoot": "E" },
+      { "id": "energetic-6-child-6", "name": "E Add4", "subtext": "5th/4th", "notes": ["E2", "A2", "B2", "E3"], "description": "Djent-style add4.", "fretboard": "0 0 2 0 x x", "baseRoot": "E" }
+    ]
+  }
+]
